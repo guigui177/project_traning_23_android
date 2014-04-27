@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">project_traning_2&amp;3</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <!-- http -->
+    <string name="base_url">api.justmove.ligol.fr</string>
+    <string name="api_url">/</string>
+    <!-- create account -->
+    <string name="create_account_email">Adresse mail:</string>
+    <string name="create_account_mdp">Mots de passe:</string>
+    <string name="create_account_confimMdp">Confirmation:</string>
+    <string name="create_account_deff">Creation d\'un compte. </string>
+    <!-- conection -->
+    <string name="fragment_login_text_username">identifiant :</string>
+    <string name="fragment_login_text_passworld">mots de passe :</string>
+    
+</resources>
