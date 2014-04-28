@@ -15,5 +15,10 @@
     <!-- conection -->
     <string name="fragment_login_text_username">identifiant :</string>
     <string name="fragment_login_text_passworld">mots de passe :</string>
+    <!-- menu -->
+    <string name="drawer_open">"Opening drawer navigation"</string>
+    <string name="drawer_close">"Closing drawer navigation"</string>
+    <string name="about_title">About us</string>
+    <string name="about">About fragment</string>
     
 </resources>
