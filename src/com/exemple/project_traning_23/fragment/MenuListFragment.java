@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import eu.justmove.R;
-import eu.justmove.Justmove;
-import eu.justmove.utils.FragmentList;
-import eu.justmove.utils.MenuItem;
+import com.example.project_traning_23.R;
+import com.example.project_traning_23.Project_traning_2_3;
+import com.example.project_traning_23.utils.FragmentList;
+import com.example.project_traning_23.utils.MenuItem;
 
 public class MenuListFragment extends ListFragment {
 
@@ -60,9 +60,9 @@ public class MenuListFragment extends ListFragment {
 			}
 		}
 		Log.d("rdfrag3", "5");
-		if (mActivity != null && mActivity instanceof Justmove)
+		if (mActivity != null && mActivity instanceof Project_traning_2_3)
 		{
-			((Justmove) mActivity).toggle();
+			((Project_traning_2_3) mActivity).toggle();
 			Log.d("rdfrag3", "6");
 		}
 		}
@@ -87,9 +87,9 @@ public class MenuListFragment extends ListFragment {
 	private void setFragment(IFragment mFragment) {
 		final Activity mActivity = getActivity();
 		Log.d("rdfrag3", "7");
-		if (mActivity != null && mActivity instanceof Justmove) {
+		if (mActivity != null && mActivity instanceof Project_traning_2_3) {
 			Log.d("rdfrag3", "8");
-			Justmove activity = (Justmove) mActivity;
+			Project_traning_2_3 activity = (Project_traning_2_3) mActivity;
 			Log.d("rdfrag3", "9");
 			activity.setFragment(mFragment, false);
 			Log.d("rdfrag3", "10");
