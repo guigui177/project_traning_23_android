@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <!-- http -->
-    <string name="base_url">api.justmove.ligol.fr</string>
+    <string name="base_url"></string>
     <string name="api_url">/</string>
     <!-- create account -->
     <string name="create_account_email">Adresse mail:</string>
@@ -20,5 +20,18 @@
     <string name="drawer_close">"Closing drawer navigation"</string>
     <string name="about_title">About us</string>
     <string name="about">About fragment</string>
+    <string name="findrestaurant">Find restaurant fragment</string>
+    <string name="findrestaurant_title">Find restaurant</string>
+    <string name="findrestaurantmap">Find restaurant on map fragment</string>
+    <string name="findrestaurantmap_title">Find restaurant on map</string>
+    <string name="nfc">Nfc reader fragment</string>
+    <string name="nfc_title">NFC reader</string>
+    <string name="order_meal">Order meal fragment</string>
+    <string name="order_meal_title">Order meal</string>
+    <string name="list_friend">add friend fragment</string>
+    <string name="list_friend_title">List of friends</string>
+    <string name="web">web fragment</string>
+    <string name="web_title">site wep restaurateur</string>
+    
     
 </resources>
