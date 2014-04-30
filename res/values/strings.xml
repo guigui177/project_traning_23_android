@@ -19,7 +19,7 @@
     <string name="drawer_open">"Opening drawer navigation"</string>
     <string name="drawer_close">"Closing drawer navigation"</string>
     <string name="about_title">About us</string>
-    <string name="about">About fragment</string>
+    <string name="about">This appication was devoloped by Guillaume savy and pierre tanghe. Contact us via the web site.</string>
     <string name="findrestaurant">Find restaurant fragment</string>
     <string name="findrestaurant_title">Find restaurant</string>
     <string name="findrestaurantmap">Find restaurant on map fragment</string>
@@ -32,6 +32,9 @@
     <string name="list_friend_title">List of friends</string>
     <string name="web">web fragment</string>
     <string name="web_title">site wep restaurateur</string>
+    <!-- nfc layout -->
+    <string name="button_nfc">Read a NFC tag</string>
+    <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>
     
     
 </resources>
