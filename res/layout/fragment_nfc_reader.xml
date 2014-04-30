@@ -20,4 +20,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/text_layout_nfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_nfc"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button_layout_nfc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:linksClickable="false"
+        android:text="@string/button_nfc" />
+
 </LinearLayout>

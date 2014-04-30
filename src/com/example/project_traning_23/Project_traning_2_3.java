@@ -4,6 +4,7 @@ import com.exemple.project_traning_23.fragment.IFragment;
 import com.example.project_traning_23.utils.FragmentList;
 //import eu.justmove.utils.MenuItem;
 
+
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -20,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class Project_traning_2_3 extends ActionBarActivity {
@@ -62,7 +64,6 @@ public class Project_traning_2_3 extends ActionBarActivity {
 			};
 
 			mDrawerLayout.setDrawerListener(mDrawerToggle);
-
 
 		} else {
 			getSupportActionBar().setHomeButtonEnabled(false);
