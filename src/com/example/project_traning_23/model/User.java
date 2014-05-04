@@ -10,12 +10,12 @@ public class User {
 	private String name;
 	private Date Birthday;
 	private Image avatar;
-	private List<User> friends;
+	private List<Friend> friends;
 	private List<Coupon> coupons;
 	private List<Meeting> meetings;
 	
 	public User(int id, String name, Date birthday, Image avatar,
-			List<User> friends, List<Coupon> coupons, List<Meeting> meetings) {
+			List<Friend> friends, List<Coupon> coupons, List<Meeting> meetings) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -74,15 +74,15 @@ public class User {
 		this.meetings = meetings;
 	}
 	
-	public List<User> getFriends() {
+	public List<Friend> getFriends() {
 		return friends;
 	}
 
-	public void setFriends(List<User> friends) {
+	public void setFriends(List<Friend> friends) {
 		this.friends = friends;
 	}
 	
-	public void addFriend(User friend) {
+	public void addFriend(Friend friend) {
 		this.friends.add(friend);
 	}
 

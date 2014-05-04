@@ -8,11 +8,11 @@ public class Meeting {
 	private Date date;
 	private List<Participant> participants;
 	private Restaurant resto;
-	private Status status;
+	private String status;
 	private boolean notification;
 
 	public Meeting(int id, Date date, List<Participant> participants,
-			Restaurant resto, Status status, boolean notification) {
+			Restaurant resto, String status, boolean notification) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -38,7 +38,7 @@ public class Meeting {
 		return resto;
 	}
 
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
@@ -62,7 +62,7 @@ public class Meeting {
 		this.resto = resto;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

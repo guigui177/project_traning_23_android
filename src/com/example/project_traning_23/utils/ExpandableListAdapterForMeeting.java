@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter{
+public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 	private List<Meeting> meetings;
 	private LayoutInflater inflater;
 
-	public ExpandableListAdapter(List<Meeting> meetings, Activity activity) {
+	public ExpandableListAdapterForMeeting(Activity activity, List<Meeting> meetings) {
 		super();
 		this.meetings = meetings;
 		this.inflater = activity.getLayoutInflater();
@@ -27,7 +27,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		return meetings.get(groupPosition).getParticipants().get(childPosition).getUser().getName();
+		return meetings.get(groupPosition).getParticipants().get(childPosition);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 		participant_name_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_participant_name_tv);
 		participant_status_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_participant_status_tv);
 		
-		participant_name_tv.setText(participant.getUser().getName());
+		participant_name_tv.setText(participant.getUserName());
 		participant_status_tv.setText(participant.getStatus().toString());
 		return convertView;
 	}
