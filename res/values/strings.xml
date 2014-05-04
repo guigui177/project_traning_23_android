@@ -29,6 +29,13 @@
     <string name="fragment_menuresto_name">resto name</string>
     <string name="fragment_menuresto_deff">resto deff</string>
     <string name="fragment_menuresto_type">resto type</string>
+    <!-- menurestoexpende -->
+    <string name="fragment_expenderesto_text_name">resto name</string>
+    <string name="fragment_expenderesto_text_deff">resto deff</string>
+    <string name="fragment_expenderesto_text_type">resto type</string>
+    <string name="fragment_expenderesto_text_meal">resto meal</string>
+    <string name="fragment_expenderesto_button_cancel">Cancel</string>
+    <string name="fragment_expenderesto_button_order">Order</string>
     <!-- menu -->
     <string name="drawer_open">"Opening drawer navigation"</string>
     <string name="drawer_close">"Closing drawer navigation"</string>

@@ -42,13 +42,10 @@ public class ListFriend extends AFragment implements OnClickListener {
 		v.findViewById(R.id.fragment_listfriend_button_delfriend).setOnClickListener(this);
 		listFriend = (ListView) v.findViewById(R.id.fragment_listfriend_list_listfriend);
 
-		//  add friend requette get
-		
+		//  add friend requette get	
 		listFriend.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,listeStrings));
-		 
 		return v;
 	}
-
 
 	public void onActivityCreated(Bundle savedInstanceState)
 	{

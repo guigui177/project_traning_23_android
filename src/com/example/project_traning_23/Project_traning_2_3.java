@@ -54,7 +54,7 @@ public class Project_traning_2_3 extends ActionBarActivity {
 		
 		Toast.makeText(getApplicationContext(), "user === " + Username , Toast.LENGTH_LONG).show();
 		
-		if (Username == "")
+		if (Username != "")
 		{		
 			layout = findViewById(R.id.drawer_layout);
 			supportActionBar = getSupportActionBar();

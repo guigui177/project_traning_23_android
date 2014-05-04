@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/fragment_listrestoexpande_text_meal"
         android:layout_width="306dp"
         android:layout_height="50dp"
         android:text="@string/create_account_deff"
