@@ -2,23 +2,31 @@ package com.example.project_traning_23.model;
 
 public class Participant {
 
-	private User user;
-	private Status status;
-	public Participant(User user, Status status) {
+	private int id_user;
+	private String user_name;
+	private String status;
+	public Participant(int id_user, String user_name, String status) {
 		super();
-		this.user = user;
+		this.id_user = id_user;
+		this.user_name = user_name;
 		this.status = status;
 	}
-	public User getUser() {
-		return user;
+	public int getIdUser() {
+		return id_user;
 	}
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setIdUser(int user) {
+		this.id_user = user;
 	}
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getUserName() {
+		return user_name;
+	}
+	public void setUserName(String user_name) {
+		this.user_name = user_name;
 	}
 }
