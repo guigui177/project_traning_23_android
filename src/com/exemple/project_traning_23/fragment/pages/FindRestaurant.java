@@ -4,15 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.project_traning_23.R;
 import com.exemple.project_traning_23.fragment.AFragment;
 
 public class FindRestaurant extends AFragment {
-
 	@Override
 	public int getMenuTitle() {
-		return R.string.findrestaurant_title;
+		return R.string.findrestaurant_title;		
 	}
 
 	@Override

@@ -35,6 +35,7 @@
     <!-- nfc layout -->
     <string name="button_nfc">Read a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>
+    <string name="list_meeting">Meetings</string>
     
     
 </resources>

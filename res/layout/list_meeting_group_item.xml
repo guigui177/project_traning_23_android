@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_meeting_group_item_gl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2" >
+
+    <TextView
+        android:id="@+id/list_meeting_group_item_name_restaurant_tv"
+        android:layout_column="0"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left|top"
+        android:layout_margin="5dp"
+        android:layout_row="0"
+        android:layout_rowSpan="1"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/list_meeting_group_item_date_tv"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left"
+        android:layout_margin="5dp"
+        android:layout_row="0"
+        android:layout_rowSpan="1"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/list_meeting_group_item_nb_participant_tv"
+        android:layout_column="0"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_row="1"
+        android:layout_rowSpan="1"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/list_meeting_group_item_meeting_status_tv"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_row="1"
+        android:layout_rowSpan="1"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</GridLayout>

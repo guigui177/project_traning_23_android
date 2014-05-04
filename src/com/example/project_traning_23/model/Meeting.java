@@ -6,12 +6,12 @@ import java.util.List;
 public class Meeting {
 	private int id;
 	private Date date;
-	private List<User> participants;
+	private List<Participant> participants;
 	private Restaurant resto;
 	private Status status;
 	private boolean notification;
 
-	public Meeting(int id, Date date, List<User> participants,
+	public Meeting(int id, Date date, List<Participant> participants,
 			Restaurant resto, Status status, boolean notification) {
 		super();
 		this.id = id;
@@ -30,7 +30,7 @@ public class Meeting {
 		return date;
 	}
 
-	public List<User> getParticipants() {
+	public List<Participant> getParticipants() {
 		return participants;
 	}
 
@@ -54,7 +54,7 @@ public class Meeting {
 		this.date = date;
 	}
 
-	public void setParticipants(List<User> participants) {
+	public void setParticipants(List<Participant> participants) {
 		this.participants = participants;
 	}
 
@@ -70,7 +70,7 @@ public class Meeting {
 		this.notification = notification;
 	}
 	
-	public void addParcticipant(User User) {
+	public void addParcticipant(Participant User) {
 		this.participants.add(User);
 	}
 	
