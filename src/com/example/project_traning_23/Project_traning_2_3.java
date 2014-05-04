@@ -5,6 +5,9 @@ import com.example.project_traning_23.utils.FragmentList;
 //import eu.justmove.utils.MenuItem;
 
 
+
+
+
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -13,6 +16,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class Project_traning_2_3 extends ActionBarActivity {
@@ -34,41 +39,57 @@ public class Project_traning_2_3 extends ActionBarActivity {
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private View layout;
+	private boolean islogged = false;
+	private String Username;
+	private String Userpass;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_traning_23);
+		
+		InternalStorage  intern= new InternalStorage(getApplicationContext());
+		Username = intern.getUsername();
+		Userpass = intern.getUserpass(); 
+		
+		Toast.makeText(getApplicationContext(), "user === " + Username , Toast.LENGTH_LONG).show();
+		
+		if (Username == "")
+		{		
+			layout = findViewById(R.id.drawer_layout);
+			supportActionBar = getSupportActionBar();
+			mTitle = mDrawerTitle = getTitle();
 
-		layout = findViewById(R.id.drawer_layout);
-		supportActionBar = getSupportActionBar();
-		mTitle = mDrawerTitle = getTitle();
+			setFragment(FragmentList.findFragmentById(0).getFragment(), false);
+			if (layout instanceof DrawerLayout) {
+				mDrawerLayout = (DrawerLayout) layout;
+				mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+				supportActionBar.setDisplayHomeAsUpEnabled(true);
+				supportActionBar.setHomeButtonEnabled(true);
+				mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+					public void onDrawerClosed(View view) {
+						if (supportActionBar.getTitle().equals(mDrawerTitle))
+							supportActionBar.setTitle(mTitle);
+						supportInvalidateOptionsMenu();
+					}
+					public void onDrawerOpened(View drawerView) {
+						mTitle = supportActionBar.getTitle();
+						supportActionBar.setTitle(mDrawerTitle);
+						supportInvalidateOptionsMenu();
+					}
+				};
 
-		setFragment(FragmentList.findFragmentById(0).getFragment(), false);
-		if (layout instanceof DrawerLayout) {
-			mDrawerLayout = (DrawerLayout) layout;
-			mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-			supportActionBar.setDisplayHomeAsUpEnabled(true);
-			supportActionBar.setHomeButtonEnabled(true);
-			mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-				public void onDrawerClosed(View view) {
-					if (supportActionBar.getTitle().equals(mDrawerTitle))
-						supportActionBar.setTitle(mTitle);
-					supportInvalidateOptionsMenu();
-				}
-				public void onDrawerOpened(View drawerView) {
-					mTitle = supportActionBar.getTitle();
-					supportActionBar.setTitle(mDrawerTitle);
-					supportInvalidateOptionsMenu();
-				}
-			};
+				mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-			mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		} else {
-			getSupportActionBar().setHomeButtonEnabled(false);
+			} else {
+				getSupportActionBar().setHomeButtonEnabled(false);
+			}
 		}
-
+		else {
+			Toast.makeText(this, "pas logger", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(this, login.class);
+			startActivity(intent);
+		}
 	}
 
 	public void toggle() {

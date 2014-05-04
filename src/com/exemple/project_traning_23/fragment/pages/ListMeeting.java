@@ -26,6 +26,4 @@ public class ListMeeting  extends AFragment {
 	{
 		super.onActivityCreated(savedInstanceState);
 	}
-	
-	
 }

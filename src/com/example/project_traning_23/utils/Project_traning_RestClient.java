@@ -12,7 +12,7 @@ import android.content.Context;
 
 
 public class Project_traning_RestClient {
-	private static String BASE_URL = null;
+	private static String BASE_URL = "http://192.168.0.101:3000";
 	private static String API_URL = null;
 
 	private final static AsyncHttpClient client = new AsyncHttpClient();
@@ -78,7 +78,7 @@ public class Project_traning_RestClient {
 			BASE_URL = context.getString(R.string.base_url);
 		if (API_URL == null)
 			API_URL = context.getString(R.string.api_url);
-		return BASE_URL + API_URL  + "/" + relativeUrl;
+		return BASE_URL + API_URL  + relativeUrl;
 	}
 //	public static void loadImage(Context context,String img_path, ImageView img)
 //	{

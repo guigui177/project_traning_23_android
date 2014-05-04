@@ -8,13 +8,27 @@
     <string name="base_url"></string>
     <string name="api_url">/</string>
     <!-- create account -->
+    <string name="create_account_name">login</string>
     <string name="create_account_email">Adresse mail:</string>
     <string name="create_account_mdp">Mots de passe:</string>
     <string name="create_account_confimMdp">Confirmation:</string>
     <string name="create_account_deff">Creation d\'un compte. </string>
+    <string name="create_account_valider">validation</string>
     <!-- conection -->
     <string name="fragment_login_text_username">identifiant :</string>
+    <string name="fragment_login_connection">Connection</string>
     <string name="fragment_login_text_passworld">mots de passe :</string>
+    <string name="fragment_login_create_acc">create acount</string>
+    <!-- listfriend -->
+    <string name="fragment_listfriend_menu_addfriend">Add friend</string>
+    <string name="fragment_listfriend_menu_delfriend">Delete friend</string>
+    <!-- addfriend -->
+    <string name="fragment_addfriend_text_namefriend">Friend\'s name</string>
+    <string name="fragment_addfriend_button_addfriend">Add friend</string>
+    <!-- menuresto -->
+    <string name="fragment_menuresto_name">resto name</string>
+    <string name="fragment_menuresto_deff">resto deff</string>
+    <string name="fragment_menuresto_type">resto type</string>
     <!-- menu -->
     <string name="drawer_open">"Opening drawer navigation"</string>
     <string name="drawer_close">"Closing drawer navigation"</string>
@@ -28,10 +42,12 @@
     <string name="nfc_title">NFC reader</string>
     <string name="order_meal">Order meal fragment</string>
     <string name="order_meal_title">Order meal</string>
-    <string name="list_friend">add friend fragment</string>
+    <string name="list_friend">list friend fragment</string>
     <string name="list_friend_title">List of friends</string>
     <string name="web">web fragment</string>
     <string name="web_title">site wep restaurateur</string>
+    <string name="list_metting">metting fragment</string>
+    <string name="list_metting_title">List metting</string>
     <!-- nfc layout -->
     <string name="button_nfc">Read a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>

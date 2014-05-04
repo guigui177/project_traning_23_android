@@ -9,6 +9,7 @@
         android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="@string/fragment_login_text_username"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -19,9 +20,10 @@
         android:ems="10" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/fragment_listresto_text_typeresto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="@string/fragment_login_text_passworld"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -29,8 +31,7 @@
         android:id="@+id/fragment_login_textfield_mdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword" >
+        android:ems="10" >
 
         <requestFocus />
     </EditText>
@@ -38,20 +39,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:gravity="center" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/login_layout_button_connection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_margin="10dp"
+            android:text="@string/fragment_login_connection" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal" >
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/login_layout_button_create_acc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
-
+            android:layout_margin="10dp"
+            android:text="@string/fragment_login_create_acc" />
     </LinearLayout>
 
 </LinearLayout>

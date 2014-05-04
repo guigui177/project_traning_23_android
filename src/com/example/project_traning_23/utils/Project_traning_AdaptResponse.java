@@ -35,7 +35,7 @@ public class Project_traning_AdaptResponse<T extends Project_traning_Model> {
 		return null;
 	}
 	
-	public static String toJson(final Project_traning_Model model) throws JsonProcessingException
+	public static String toJson(final /*Project_traning_Model*/ Object model) throws JsonProcessingException
 	{
 		return objectMapper.writeValueAsString(model);
 	}
