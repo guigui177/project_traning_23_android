@@ -2,6 +2,8 @@ package com.exemple.project_traning_23.fragment;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 //import eu.justmove.utils.AnalyticsManager;
 

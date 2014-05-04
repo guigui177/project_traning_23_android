@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 import com.example.project_traning_23.R;
 import com.exemple.project_traning_23.fragment.AFragment;
 
-public class OrderMeal extends AFragment {
+public class ListMeeting extends AFragment {
 
 	@Override
 	public int getMenuTitle() {
-		return R.string.order_meal_title;
+		return R.string.list_metting_title;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_order_meal, container, false);
+		return inflater.inflate(R.layout.fragment_list_metting, container, false);
 	}
 	
 	public void onActivityCreated(Bundle savedInstanceState)
