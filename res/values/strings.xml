@@ -55,6 +55,7 @@
     <string name="web_title">site wep restaurateur</string>
     <string name="list_metting">metting fragment</string>
     <string name="list_metting_title">List metting</string>
+    <string name="logoff_title">Logoff</string>
     <!-- nfc layout -->
     <string name="button_nfc">Read a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>

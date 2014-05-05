@@ -1,11 +1,15 @@
 package com.example.project_traning_23;
 
 
+import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
 import com.example.project_traning_23.utils.Project_traning_RestClient;
@@ -22,6 +26,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,19 +66,31 @@ public class login extends Activity implements OnClickListener {
 			String password= userPass.getText().toString();
 
 			Toast.makeText(this, "user = " + name + " MDP = " + password , Toast.LENGTH_SHORT).show();
-			// send conection request post
+			// send conection request post     a tester ------------------------------------------------------
 
-			InternalStorage internal = new InternalStorage(getApplicationContext());
+			
+			InternalStorage internal = InternalStorage.getInstance(getApplicationContext());
 			internal.setUsername(name);
 			internal.setUserpass(password);
 
-			Toast.makeText(this, internal.getUsername(), Toast.LENGTH_SHORT).show();
+			Project_traning_RestClient.getWithboddy(getApplicationContext(), "auth", null, 
+					new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String response) {
+					System.out.println(response);
+				}
+				@Override
+				public void onFailure(Throwable error)
+				{
+					System.out.println(error.getLocalizedMessage());
+					Toast.makeText(getApplicationContext(), "requette login faild " , Toast.LENGTH_LONG).show();
+				}
+			});
 
 			Intent intent = new Intent(this, Project_traning_2_3.class);
 			startActivity(intent);
 			break;
 		case R.id.login_layout_button_create_acc :
-			// create acount 
 			final Dialog dialog = new Dialog(this);
 			dialog.setTitle("Create account");
 			dialog.setContentView(R.layout.fragment_createaccount);
@@ -84,60 +101,37 @@ public class login extends Activity implements OnClickListener {
 			Button buttoncreate=(Button)dialog.findViewById(R.id.fragment_create_login_button_valider);
 			buttoncreate.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					String usermail=editTextUserName.getText().toString();
+					String usermail=editTextUsermail.getText().toString();
 					String username=editTextUserName.getText().toString();
 					String password=editTextPassword.getText().toString();
 					String passwordconf=editTextPasswordconf.getText().toString();
 
 					Toast.makeText(login.this, userName + " " + password + " " + passwordconf , Toast.LENGTH_LONG).show();
-					// create account requette post
-
-					// test
-					RequestParams users = new RequestParams();
-					users.put("user",  username);
-					users.put("pass",  password);
-					Project_traning_RestClient.post(getApplicationContext(), "users/create", users, new AsyncHttpResponseHandler() {
+					// create account requette post					
+					JSONObject json = new JSONObject();
+					try {
+						json.put("userName", username);
+						json.put("password", password);
+						json.put("mail", usermail);
+					} catch (JSONException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Log.d("api",json.toString());
+					Project_traning_RestClient.postWithBody(getApplicationContext(), "users/create", json.toString(), false, 
+							new AsyncHttpResponseHandler() {
 						@Override
 						public void onSuccess(String response) {
 							System.out.println(response);
+							Toast.makeText(getApplicationContext(), "starting create account reponce = " + response , Toast.LENGTH_LONG).show();
 						}
 						@Override
 						public void onStart()
 						{
-							Toast.makeText(getApplicationContext(), "starting" + this.toString(), Toast.LENGTH_LONG).show();
+							Toast.makeText(getApplicationContext(), "starting create account request" , Toast.LENGTH_LONG).show();
 						}
 					});
-
-					/*
-					Map<String, String> entry = new HashMap<String , String>();
-					entry.put("userName", username);
-					entry.put("password", password);
-					entry.put("mail", usermail);
-
-					try {
-						Project_traning_RestClient.post(getApplicationContext(), "users/create",
-								new StringEntity(Project_traning_AdaptResponse.toJson(entry)), "application/json",
-								new AsyncHttpResponseHandler() {
-							@Override
-							public void onSuccess(String response) {
-								System.out.println(response);
-							}
-							@Override
-							public void onStart()
-							{
-								Toast.makeText(getApplicationContext(), "starting" + this.toString(), Toast.LENGTH_LONG).show();
-							}
-
-
-						});
-					} catch (UnsupportedEncodingException
-							| JsonProcessingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					 */
-
-					InternalStorage internal = new InternalStorage(getApplicationContext());
+					InternalStorage internal = InternalStorage.getInstance(getApplicationContext());
 					internal.setUsername(username);
 					internal.setUserpass(password);
 					dialog.cancel();

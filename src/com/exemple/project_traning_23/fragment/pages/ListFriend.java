@@ -1,7 +1,11 @@
 package com.exemple.project_traning_23.fragment.pages;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.apache.http.Header;
 import com.example.project_traning_23.InternalStorage;
 import com.example.project_traning_23.R;
 import com.example.project_traning_23.login;
@@ -29,7 +34,9 @@ public class ListFriend extends AFragment implements OnClickListener {
 
 	private String[] listeStrings = {"toto","titi","tata"};
 	private ListView listFriend = null;
-
+	private String listuser_json; 
+	private String listfriend_json;
+ 
 	@Override
 	public int getMenuTitle() {
 		return R.string.list_friend_title;
@@ -42,7 +49,38 @@ public class ListFriend extends AFragment implements OnClickListener {
 		v.findViewById(R.id.fragment_listfriend_button_delfriend).setOnClickListener(this);
 		listFriend = (ListView) v.findViewById(R.id.fragment_listfriend_list_listfriend);
 
-		//  add friend requette get	
+		// requette list Users
+		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/read", null, 
+				new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				System.out.println(response);
+				listuser_json = response;
+			}
+			@Override
+			public void onFailure(Throwable error)
+			{
+				System.out.println(error.getLocalizedMessage());
+				Toast.makeText(getActivity().getApplicationContext(), "requette list users faild " , Toast.LENGTH_LONG).show();
+			}
+		});
+		
+		//  list friend requette get
+		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/friends/read", null, 
+				new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				System.out.println(response);
+				listfriend_json = response;
+			}
+			@Override
+			public void onFailure(Throwable error)
+			{
+				System.out.println(error.getLocalizedMessage());
+				Toast.makeText(getActivity().getApplicationContext(), "requette list friend faild " , Toast.LENGTH_LONG).show();
+			}
+		});
+		
 		listFriend.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,listeStrings));
 		return v;
 	}
@@ -63,11 +101,30 @@ public class ListFriend extends AFragment implements OnClickListener {
 			Button buttoncreate=(Button)dialog.findViewById(R.id.fragment_addfriend_button_addfriend);
 			buttoncreate.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					String username = editTextUserName.getText().toString();					
-					//  add friend requette post
-					Toast.makeText(getActivity(), "add friend username = " + username , Toast.LENGTH_SHORT).show();
+					String friendname = editTextUserName.getText().toString();
+					//  add friend requette post a tester -------------------------------------------------------
+					JSONObject json = new JSONObject();
+					try {
+						json.put("friend_id", friendname);
+					} catch (JSONException e1) {
+						e1.printStackTrace();
+					}
+					Log.d("api",json.toString());
+					Project_traning_RestClient.postWithBody(getActivity().getApplicationContext(), "/users/friends/add", json.toString(), false, 
+							new AsyncHttpResponseHandler() {
+						@Override
+						public void onSuccess(String response) {
+							System.out.println(response);
+							Toast.makeText(getActivity().getApplicationContext(), "starting add friend reponce = " + response , Toast.LENGTH_LONG).show();
+						}
+						@Override
+						public void onStart()
+						{
+							Toast.makeText(getActivity().getApplicationContext(), "starting add friend request" , Toast.LENGTH_LONG).show();
+						}
+					});
+					
 					dialog.cancel();
-
 				}
 			});
 			dialog.show();
@@ -81,9 +138,30 @@ public class ListFriend extends AFragment implements OnClickListener {
 			dellistfriend.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
-					String value = (String)adapter.getItemAtPosition(position);				
-					Toast.makeText(getActivity(), "del friend username = " + value , Toast.LENGTH_SHORT).show();
-					//  del friend requette post
+					String friendname = (String)adapter.getItemAtPosition(position);				
+					//Toast.makeText(getActivity(), "del friend username = " + friendname , Toast.LENGTH_SHORT).show();
+					//  del friend requette post  a tester ----------------------------------------------------------------
+					JSONObject json = new JSONObject();
+					try {
+						json.put("friend_id", friendname);
+					} catch (JSONException e1) {
+						e1.printStackTrace();
+					}
+					Log.d("api",json.toString());
+					Project_traning_RestClient.postWithBody(getActivity().getApplicationContext(), "/users/friends/remove", json.toString(), false, 
+							new AsyncHttpResponseHandler() {
+						@Override
+						public void onSuccess(String response) {
+							System.out.println(response);
+							Toast.makeText(getActivity().getApplicationContext(), "starting remove friend reponce = " + response , Toast.LENGTH_LONG).show();
+						}
+						@Override
+						public void onStart()
+						{
+							Toast.makeText(getActivity().getApplicationContext(), "starting remove friend request" , Toast.LENGTH_LONG).show();
+						}
+					});
+					
 					dialog2.cancel();
 				}
 			});

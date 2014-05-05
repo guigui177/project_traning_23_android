@@ -2,6 +2,7 @@ package com.example.project_traning_23.utils;
 
 import com.exemple.project_traning_23.fragment.pages.About;
 import com.exemple.project_traning_23.fragment.pages.ListMeeting;
+import com.exemple.project_traning_23.fragment.pages.Logoff;
 import com.exemple.project_traning_23.fragment.pages.NfcReader;
 import com.exemple.project_traning_23.fragment.pages.FindRestaurant;
 import com.exemple.project_traning_23.fragment.pages.FindRestaurantMap;
@@ -21,6 +22,7 @@ public enum FragmentList {
 	ORDERMEAL(new MenuItem(new OrderMeal())),
 	NFCREADER(new MenuItem(new NfcReader())),
 	WEB(new MenuItem(new Webrestaurateur())),
+	LOGOFF(new MenuItem(new Logoff())),
 	APROPOS(new MenuItem(new About()));
 		
 	private final MenuItem mItem;

@@ -25,9 +25,7 @@ public class InternalStorage {
 	
 	public String getUsername() {
 		SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-		
-		//return settings.getString("username", "");
-		return "";
+		return settings.getString("username", "");
 	}
 	
 	public String getUserpass() {
