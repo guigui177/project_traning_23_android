@@ -61,14 +61,9 @@ public class login extends Activity implements OnClickListener {
 		switch (v.getId())
 		{
 		case R.id.login_layout_button_connection :
-			Toast.makeText(this, "login button", Toast.LENGTH_SHORT).show();
 			String name= userName.getText().toString();
 			String password= userPass.getText().toString();
-
-			Toast.makeText(this, "user = " + name + " MDP = " + password , Toast.LENGTH_SHORT).show();
-			// send conection request post     a tester ------------------------------------------------------
-
-			
+			// send connection request post 
 			InternalStorage internal = InternalStorage.getInstance(getApplicationContext());
 			internal.setUsername(name);
 			internal.setUserpass(password);
@@ -77,18 +72,16 @@ public class login extends Activity implements OnClickListener {
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {
-					System.out.println(response);
+					Intent intent = new Intent(getApplicationContext(), Project_traning_2_3.class);
+					startActivity(intent);
 				}
 				@Override
 				public void onFailure(Throwable error)
 				{
 					System.out.println(error.getLocalizedMessage());
-					Toast.makeText(getApplicationContext(), "requette login faild " , Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "ERROR: login or password incorrect" , Toast.LENGTH_LONG).show();
 				}
 			});
-
-			Intent intent = new Intent(this, Project_traning_2_3.class);
-			startActivity(intent);
 			break;
 		case R.id.login_layout_button_create_acc :
 			final Dialog dialog = new Dialog(this);
