@@ -6,6 +6,9 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -23,7 +26,7 @@ public class ListMeeting  extends AFragment {
 	private List<Meeting> meetings;
 	@Override
 	public int getMenuTitle() {
-		return R.string.list_meeting;
+		return R.string.list_metting_title;
 	}
 
 	@Override
@@ -35,12 +38,12 @@ public class ListMeeting  extends AFragment {
 		expla.setAdapter(elafm);
 		return view;
 	}
-	
+
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
 	public void testData() {
 		List<Participant> participants1 = new ArrayList<Participant>();
 		participants1.add(new Participant(1, "toto", Status.CONFIRMED));
@@ -51,14 +54,32 @@ public class ListMeeting  extends AFragment {
 		participants2.add(new Participant(1, "mimi", Status.CONFIRMED));
 		participants2.add(new Participant(2, "momo", Status.DECLINED));
 		participants2.add(new Participant(3, "mama", Status.PENDING));
-		
+
 		GregorianCalendar date = new GregorianCalendar(2014, 6, 6, 6, 6);
-		
+
 		Meeting meeting1 = new Meeting(1, date.getTime(), participants1, new Restaurant("coco", 50, 30, "pas loin", "coco@html.fr", (float)75.02, (float)46.05), Status.CONFIRMED, true);
 		Meeting meeting2 = new Meeting(2, date.getTime(), participants2, new Restaurant("hello", 50, 30, "par ici", "hello@html.fr", (float)75.02, (float)46.05), Status.PENDING, true);
 
 		this.meetings = new ArrayList<Meeting>();
 		this.meetings.add(meeting1);
 		this.meetings.add(meeting2);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_meeting_list_add_b:
+			//appel du fragment ajout de meeting
+			break;
+		default:
+			return super.onContextItemSelected(item);
+		}
+		return true;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.menu_meeting_list, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 }

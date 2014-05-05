@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top|left"
+    android:columnCount="2" >
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_columnSpan="2"
+        android:layout_gravity="left|start"
+        android:text="Restaurant" />
+
+    <AutoCompleteTextView
+        android:id="@+id/fragment_create_meeting_restaurant_actv"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill_horizontal"
+        android:ems="10"
+        android:text="AutoCompleteTextView" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_columnSpan="2"
+        android:layout_gravity="top|left"
+        android:text="From" />
+
+    <DatePicker
+        android:id="@+id/fragment_create_meeting_from_dp"
+        android:layout_columnSpan="1"
+        android:layout_gravity="left"
+        android:layout_row="3" />
+
+    <TimePicker
+        android:id="@+id/fragment_create_meeting_from_tp"
+        android:layout_columnSpan="1"
+        android:layout_gravity="top|left" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_columnSpan="2"
+        android:layout_gravity="top|left"
+        android:text="To" />
+
+    <DatePicker
+        android:id="@+id/fragment_create_meeting_to_dp"
+        android:layout_columnSpan="1"
+        android:layout_gravity="top|left" />
+
+    <TimePicker
+        android:id="@+id/fragment_create_meeting_to_tp"
+        android:layout_columnSpan="1"
+        android:layout_gravity="top|left" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_columnSpan="2"
+        android:layout_gravity="top|left"
+        android:text="Where to meet?" />
+
+    <EditText
+        android:id="@+id/fragment_create_meeting_location_et"
+        android:layout_columnSpan="2"
+        android:layout_gravity="top|fill_horizontal"
+        android:ems="10" />
+
+</GridLayout>

@@ -59,6 +59,9 @@
     <string name="button_nfc">Read a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>
     <string name="list_meeting">Meetings</string>
+    <string name="menu_meeting_list_add_b">Create a meeting</string>
+    <string name="create_meeting_title">Create Meeting</string>
+    <string name="menu_add_meeting_validate_bt">ok</string>
     
     
 </resources>
