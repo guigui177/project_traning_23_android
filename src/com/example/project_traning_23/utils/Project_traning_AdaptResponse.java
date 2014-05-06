@@ -19,6 +19,7 @@ public class Project_traning_AdaptResponse<T extends Project_traning_Model> {
 	public List<T> adaptToList(final String response, final Class<T> className) {
 		try {
 			final JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, className);
+			Log.d("jason log ", type.toString());
 			return objectMapper.readValue(response, type);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -45,6 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="@string/fragment_expenderesto_button_order" />
+        android:text="@string/fragment_expenderesto_button_metting" />
 
 </LinearLayout>

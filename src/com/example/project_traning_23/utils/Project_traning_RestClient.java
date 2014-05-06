@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 public class Project_traning_RestClient {
-	private static String BASE_URL = "http://192.168.0.101:3000";
+	private static String BASE_URL = "http://192.168.0.102:3000";
 	private static String API_URL = null;
 
 	private final static AsyncHttpClient client = new AsyncHttpClient();
@@ -85,6 +85,21 @@ public class Project_traning_RestClient {
 		};	
 		try {
 			client.post(context,  getAbsoluteUrl(context, url), headers, new StringEntity(content), "application/json", responseHandler);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void putWithBody(final Context context, final String url, final String content, Boolean auth, final AsyncHttpResponseHandler responseHandler)
+	{
+		Header[] headers = {
+				new BasicHeader("userName", InternalStorage.getInstance(context).getUsername()),
+				new BasicHeader("password", InternalStorage.getInstance(context).getUserpass()),
+				new BasicHeader("Content-type", "application/json")
+		};	
+		try {
+			client.put(context,  getAbsoluteUrl(context, url), headers, new StringEntity(content), "application/json", responseHandler);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
