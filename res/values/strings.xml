@@ -35,7 +35,7 @@
     <string name="fragment_expenderesto_text_type">resto type</string>
     <string name="fragment_expenderesto_text_meal">resto meal</string>
     <string name="fragment_expenderesto_button_cancel">Cancel</string>
-    <string name="fragment_expenderesto_button_order">Order</string>
+    <string name="fragment_expenderesto_button_metting">Create metting</string>
     <!-- menu -->
     <string name="drawer_open">"Opening drawer navigation"</string>
     <string name="drawer_close">"Closing drawer navigation"</string>
@@ -55,8 +55,12 @@
     <string name="web_title">site wep restaurateur</string>
     <string name="list_metting">metting fragment</string>
     <string name="list_metting_title">List metting</string>
+    <string name="logoff_title">Logoff</string>
+    <string name="setting_title">Setting</string>
+    
     <!-- nfc layout -->
     <string name="button_nfc">Read a NFC tag</string>
+    <string name="button_format_nfc">Format a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>
     <string name="list_meeting">Meetings</string>
     <string name="menu_meeting_list_add_b">Create a meeting</string>

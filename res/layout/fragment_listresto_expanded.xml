@@ -2,65 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp" >
+    <TextView
+        android:id="@+id/fragment_listrestoexpande_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/fragment_expenderesto_text_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <TextView
-            android:id="@+id/fragment_listrestoexpande_text_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:text="@string/fragment_expenderesto_text_name"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/fragment_listrestoexpande_text_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/fragment_expenderesto_text_type"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/fragment_listrestoexpande_text_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:text="@string/fragment_expenderesto_text_type"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/fragment_listrestoexpande_text_deff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/fragment_expenderesto_text_deff"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/fragment_listrestoexpande_text_deff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/fragment_listrestoexpande_text_name"
-            android:layout_margin="5dp"
-            android:layout_marginTop="28dp"
-            android:text="@string/fragment_expenderesto_text_deff"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+    <TextView
+        android:id="@+id/fragment_listrestoexpande_text_meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_marginTop="87dp"
+        android:text="@string/fragment_expenderesto_text_meal"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/fragment_listrestoexpande_text_meal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/fragment_listrestoexpande_text_deff"
-            android:layout_margin="5dp"
-            android:layout_marginTop="58dp"
-            android:text="@string/fragment_expenderesto_text_meal"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <Button
-            android:id="@+id/fragment_listrestoexpande_button_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
-            android:text="@string/fragment_expenderesto_button_order" />
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/fragment_listrestoexpande_button_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/fragment_expenderesto_button_metting" />
 
 </LinearLayout>

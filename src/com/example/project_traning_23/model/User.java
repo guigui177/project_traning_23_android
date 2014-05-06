@@ -3,11 +3,14 @@ package com.example.project_traning_23.model;
 import java.util.Date;
 import java.util.List;
 
+import com.example.project_traning_23.utils.Project_traning_Model;
+
 import android.media.Image;
 
-public class User {
+public class User extends Project_traning_Model {
 	private int id;
-	private String name;
+	private String userName;
+	private String mail;
 	private Date Birthday;
 	private Image avatar;
 	private List<Friend> friends;
@@ -18,7 +21,7 @@ public class User {
 			List<Friend> friends, List<Coupon> coupons, List<Meeting> meetings) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.userName = name;
 		Birthday = birthday;
 		this.avatar = avatar;
 		this.friends = friends;
@@ -30,8 +33,8 @@ public class User {
 		return id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 	
 	public Date getBirthday() {
@@ -50,12 +53,20 @@ public class User {
 		return meetings;
 	}
 	
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String name) {
+		this.userName = name;
 	}
 	
 	public void setBirthday(Date birthday) {

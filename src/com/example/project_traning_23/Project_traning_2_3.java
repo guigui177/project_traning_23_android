@@ -52,10 +52,11 @@ public class Project_traning_2_3 extends ActionBarActivity {
 		Username = intern.getUsername();
 		Userpass = intern.getUserpass(); 
 		
-		Toast.makeText(getApplicationContext(), "user === " + Username , Toast.LENGTH_LONG).show();
+		
 		
 		if (Username != "")
-		{		
+		{	
+			Toast.makeText(getApplicationContext(), "logged as " + Username , Toast.LENGTH_LONG).show();
 			layout = findViewById(R.id.drawer_layout);
 			supportActionBar = getSupportActionBar();
 			mTitle = mDrawerTitle = getTitle();
@@ -86,6 +87,7 @@ public class Project_traning_2_3 extends ActionBarActivity {
 			}
 		}
 		else {
+			Toast.makeText(getApplicationContext(), "not logged" , Toast.LENGTH_LONG).show();
 			Toast.makeText(this, "pas logger", Toast.LENGTH_LONG).show();
 			Intent intent = new Intent(this, login.class);
 			startActivity(intent);

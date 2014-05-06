@@ -38,6 +38,8 @@ public class FindRestaurant extends AFragment implements OnItemClickListener {
 		View v = inflater.inflate(R.layout.fragment_listresto, container, false);
 
 		listresto = (ListView) v.findViewById(R.id.fragment_listrestaurant_list_listresto);
+		listItem.clear();
+		
 		//  list resto requette get
 		HashMap<String, String> map;
 
@@ -57,11 +59,10 @@ public class FindRestaurant extends AFragment implements OnItemClickListener {
 		map.put("resto_meal", "menu ...");
 		listItem.add(map);
 
-
 		SimpleAdapter mSchedule = new SimpleAdapter (getActivity(), listItem, R.layout.fragment_menu_resto,
 				new String[] {"resto_title", "resto_type", "resto_deff"}, new int[] {R.id.fragment_listresto_text_restoname, R.id.fragment_listresto_text_typeresto, R.id.fragment_listresto_text_restoresume});
-		listresto.setAdapter(mSchedule);
-		listresto.setOnItemClickListener(this);		
+		listresto.setAdapter(mSchedule);		
+		listresto.setOnItemClickListener(this);
 		return v; 
 	}
 
@@ -93,7 +94,7 @@ public class FindRestaurant extends AFragment implements OnItemClickListener {
 
 		buttoncreate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Toast.makeText(getActivity(), "order button" , Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "Create metting button" , Toast.LENGTH_SHORT).show();
 				dialog.cancel();
 			}
 		});
