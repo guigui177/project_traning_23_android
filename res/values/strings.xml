@@ -45,7 +45,6 @@
     <string name="findrestaurant_title">Find restaurant</string>
     <string name="findrestaurantmap">Find restaurant on map fragment</string>
     <string name="findrestaurantmap_title">Find restaurant on map</string>
-    <string name="nfc">Nfc reader fragment</string>
     <string name="nfc_title">NFC reader</string>
     <string name="order_meal">Order meal fragment</string>
     <string name="order_meal_title">Order meal</string>
@@ -59,9 +58,17 @@
     <string name="setting_title">Setting</string>
     
     <!-- nfc layout -->
-    <string name="button_nfc">Read a NFC tag</string>
+    <string name="nfc">For reading </string>
+    <string name="text_write_nfc">For writing</string>
+    <string name="text_format_nfc">For format</string>
+    <string name="button_read_nfc">Read a NFC tag</string>
+    <string name="button_write_nfc">write a NFC tag</string>
     <string name="button_format_nfc">Format a NFC tag</string>
     <string name="text_nfc">Aproch the telephone near a NFC tag ad read it </string>
+    <string name="error_detected">TAG NOT DETECTED</string>
+    <string name="ok_writing">You HAVE WRITTEN YOUR TAG !!</string>
+    <string name="error_writing">ERROR DURING WRITING. ARE YOU SURE THAT YOUR TAG IS CLOSE TO YOUR MOBILE PHONE?</string>
+    <string name="ok_detection">TAG DETECTED: </string>
     <string name="list_meeting">Meetings</string>
     
     

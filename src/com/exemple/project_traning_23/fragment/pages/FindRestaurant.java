@@ -2,10 +2,13 @@ package com.exemple.project_traning_23.fragment.pages;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,49 +22,70 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.project_traning_23.Project_traning_2_3;
 import com.example.project_traning_23.R;
+import com.example.project_traning_23.model.Good_user;
+import com.example.project_traning_23.model.User;
+import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
+import com.example.project_traning_23.utils.Project_traning_RestClient;
 import com.exemple.project_traning_23.fragment.AFragment;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class FindRestaurant extends AFragment implements OnItemClickListener {
 
 	private ListView listresto = null;
 	private String[] listeStrings = {"resto 1","resto 2","resto 3"};
-	private ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
-
+	//private ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+	private List<Map<String, Object>> userlist = new ArrayList<Map<String, Object>>();
+	
 	@Override
 	public int getMenuTitle() {
 		return R.string.findrestaurant_title;		
 	}
 
+	public void getrestaurant()
+	{
+		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "restaurants/read", null, 
+				new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				System.out.println(response);
+
+				Project_traning_AdaptResponse<User> test = new Project_traning_AdaptResponse<User>();
+				userlist = test.adaptToMap(response);
+
+				Map<String, Object> t = new HashMap<String, Object>();
+				for(int i = 0; i < userlist.size(); i++)
+				{
+					t = userlist.get(i);
+					Log.d("API", "resto name = " + t.get("name"));
+				}	
+				
+				SimpleAdapter mSchedule = new SimpleAdapter (getActivity(), userlist, R.layout.fragment_menu_resto,
+						new String[] {"name", "category", "description"}, new int[] {R.id.fragment_listresto_text_restoname, R.id.fragment_listresto_text_typeresto, R.id.fragment_listresto_text_restoresume});
+				listresto.setAdapter(mSchedule);
+			}
+			
+			@Override
+			public void onFailure(Throwable error)
+			{
+				System.out.println(error.getLocalizedMessage());
+				Toast.makeText(getActivity().getApplicationContext(), "requette list users faild " , Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_listresto, container, false);
 
 		listresto = (ListView) v.findViewById(R.id.fragment_listrestaurant_list_listresto);
-		listItem.clear();
-		
-		//  list resto requette get
-		HashMap<String, String> map;
+		userlist.clear();
+		getrestaurant();
 
-		//  restaurant list get  
-
-		map = new HashMap<String, String>();
-		map.put("resto_title", "resto name 1");
-		map.put("resto_type", "spetialiter indienne ");
-		map.put("resto_deff", "Indienne");
-		map.put("resto_meal", "menu ...");
-		listItem.add(map);
-
-		map = new HashMap<String, String>();
-		map.put("resto_title", "resto name 2");
-		map.put("resto_type", "spetialiter italienne ");
-		map.put("resto_deff", "Italien");
-		map.put("resto_meal", "menu ...");
-		listItem.add(map);
-
-		SimpleAdapter mSchedule = new SimpleAdapter (getActivity(), listItem, R.layout.fragment_menu_resto,
-				new String[] {"resto_title", "resto_type", "resto_deff"}, new int[] {R.id.fragment_listresto_text_restoname, R.id.fragment_listresto_text_typeresto, R.id.fragment_listresto_text_restoresume});
-		listresto.setAdapter(mSchedule);		
+//		SimpleAdapter mSchedule = new SimpleAdapter (getActivity(), userlist, R.layout.fragment_menu_resto,
+//				new String[] {"name", "category", "description"}, new int[] {R.id.fragment_listresto_text_restoname, R.id.fragment_listresto_text_typeresto, R.id.fragment_listresto_text_restoresume});
+//		listresto.setAdapter(mSchedule);		
 		listresto.setOnItemClickListener(this);
 		return v; 
 	}
@@ -87,10 +111,10 @@ public class FindRestaurant extends AFragment implements OnItemClickListener {
 		TextView resto_meal = (TextView) dialog.findViewById(R.id.fragment_listrestoexpande_text_meal);
 		Button buttoncreate=(Button)dialog.findViewById(R.id.fragment_listrestoexpande_button_order);
 
-		resto_name.setText(map2.get("resto_title"));
-		resto_type.setText(map2.get("resto_type"));
-		resto_deff.setText(map2.get("resto_deff"));
-		resto_meal.setText(map2.get("resto_meal"));
+		resto_name.setText(map2.get("name"));
+		resto_type.setText(map2.get("category"));
+		resto_deff.setText(map2.get("description"));
+		resto_meal.setText(map2.get("address"));
 
 		buttoncreate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
