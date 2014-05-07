@@ -117,59 +117,8 @@ public class ListFriend extends AFragment implements OnClickListener {
 		v.findViewById(R.id.fragment_listfriend_button_addfriend).setOnClickListener(this);
 		v.findViewById(R.id.fragment_listfriend_button_delfriend).setOnClickListener(this);
 		listFriend = (ListView) v.findViewById(R.id.fragment_listfriend_list_listfriend);
-
 		usernamelist.clear();
 		friendnamelist.clear();
-		/*	
-		// requette list Users
-		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/read", null, 
-				new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(String response) {
-				userlist = new ArrayList<Good_user>();
-				System.out.println(response);
-				Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
-				userlist = test.adaptToList(response, Good_user.class);
-				Good_user t;
-				for(int i = 0; i < userlist.size(); i++)
-				{
-					t = userlist.get(i);					
-					usernamelist.add(t.getUserName());
-				}		
-			}
-			@Override
-			public void onFailure(Throwable error)
-			{
-				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(getActivity().getApplicationContext(), "requette list users faild " , Toast.LENGTH_LONG).show();
-			}
-		});
-		
-		//  list friend requette get
-		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/friends/read", null, 
-				new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(String response) {
-				friend_list = new ArrayList<Good_user>();
-				System.out.println(response);
-				Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
-				friend_list = test.adaptToList(response, Good_user.class);
-				Good_user t;
-				for(int i = 0; i < friend_list.size(); i++)
-				{
-					t = friend_list.get(i);					
-					friendnamelist.add(t.getUserName());
-				}	
-				listFriend.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,friendnamelist));
-			}
-			@Override
-			public void onFailure(Throwable error)
-			{
-				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(getActivity().getApplicationContext(), "requette list friend faild " , Toast.LENGTH_LONG).show();
-			}
-		});		
-		*/
 		getuserrequest();
 		getfriendrequest();
 		return v;

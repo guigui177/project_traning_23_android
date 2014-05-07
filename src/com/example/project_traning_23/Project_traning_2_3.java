@@ -52,8 +52,6 @@ public class Project_traning_2_3 extends ActionBarActivity {
 		Username = intern.getUsername();
 		Userpass = intern.getUserpass(); 
 		
-		
-		
 		if (Username != "")
 		{	
 			Toast.makeText(getApplicationContext(), "logged as " + Username , Toast.LENGTH_LONG).show();
