@@ -5,14 +5,21 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import com.example.project_traning_23.Project_traning_2_3;
 import com.example.project_traning_23.R;
 import com.example.project_traning_23.model.Meeting;
 import com.example.project_traning_23.model.Participant;
@@ -21,7 +28,7 @@ import com.example.project_traning_23.model.Status;
 import com.example.project_traning_23.utils.ExpandableListAdapterForMeeting;
 import com.exemple.project_traning_23.fragment.AFragment;
 
-public class ListMeeting  extends AFragment {
+public class ListMeeting  extends AFragment implements OnClickListener {
 
 	private List<Meeting> meetings;
 	@Override
@@ -30,12 +37,23 @@ public class ListMeeting  extends AFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_list_meeting, container, false);
 		testData();
+		setMeetingsDatas();
+		Log.d("debug", "avant expandable");
 		ExpandableListAdapterForMeeting elafm = new ExpandableListAdapterForMeeting(getActivity(), meetings);
+		Log.d("debug", "apres expandable");
 		ExpandableListView expla = (ExpandableListView) view.findViewById(R.id.fragment_list_meeting_Explv);
 		expla.setAdapter(elafm);
+		Button add_b = (Button) view.findViewById(R.id.fragment_list_meeting_add_b);
+		add_b.setOnClickListener(this);
 		return view;
 	}
 
@@ -55,10 +73,10 @@ public class ListMeeting  extends AFragment {
 		participants2.add(new Participant(2, "momo", Status.DECLINED));
 		participants2.add(new Participant(3, "mama", Status.PENDING));
 
-		GregorianCalendar date = new GregorianCalendar(2014, 6, 6, 6, 6);
+		GregorianCalendar date = new GregorianCalendar(2014, 0, 1, 1, 0);
 
-		Meeting meeting1 = new Meeting(1, date.getTime(), participants1, new Restaurant("coco", 50, 30, "pas loin", "coco@html.fr", (float)75.02, (float)46.05), Status.CONFIRMED, true);
-		Meeting meeting2 = new Meeting(2, date.getTime(), participants2, new Restaurant("hello", 50, 30, "par ici", "hello@html.fr", (float)75.02, (float)46.05), Status.PENDING, true);
+		Meeting meeting1 = new Meeting(1, "anniv", date.getTime(), participants1, new Restaurant("coco", 50, 30, "pas loin", "coco@html.fr", (float)75.02, (float)46.05), Status.CONFIRMED, true);
+		Meeting meeting2 = new Meeting(2, "boulot", date.getTime(), participants2, new Restaurant("hello", 50, 30, "par ici", "hello@html.fr", (float)75.02, (float)46.05), Status.PENDING, true);
 
 		this.meetings = new ArrayList<Meeting>();
 		this.meetings.add(meeting1);
@@ -67,19 +85,37 @@ public class ListMeeting  extends AFragment {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_meeting_list_add_b:
-			//appel du fragment ajout de meeting
-			break;
-		default:
-			return super.onContextItemSelected(item);
-		}
-		return true;
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_meeting_list, menu);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.fragment_list_meeting_add_b:
+			//appel du fragment ajout meeting
+			final FragmentManager fm = getActivity().getSupportFragmentManager();
+			final FragmentTransaction ft = fm.beginTransaction();
+//			ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+			// Replace current fragment by the new one.
+			ft.replace(R.id.content_frame, new CreateMeeting());
+			// Null on the back stack to return on the previous fragment when user
+			// press on back button.
+			ft.addToBackStack(null);
+			// Commit changes.
+			ft.commit();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void setMeetingsDatas() {
+		//recuperation des informations de tous les meetings
 	}
 }

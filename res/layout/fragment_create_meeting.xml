@@ -1,66 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="top|left"
-    android:columnCount="2" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_columnSpan="2"
-        android:layout_gravity="left|start"
-        android:text="Restaurant" />
-
-    <AutoCompleteTextView
-        android:id="@+id/fragment_create_meeting_restaurant_actv"
-        android:layout_columnSpan="2"
-        android:layout_gravity="fill_horizontal"
-        android:ems="10"
-        android:text="AutoCompleteTextView" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_columnSpan="2"
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="top|left"
-        android:text="From" />
+        android:columnCount="2"
+        android:padding="5dp" >
 
-    <DatePicker
-        android:id="@+id/fragment_create_meeting_from_dp"
-        android:layout_columnSpan="1"
-        android:layout_gravity="left"
-        android:layout_row="3" />
+        <TextView
+            android:id="@+id/list_meeting_row_item_participant_item_status_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="left|start"
+            android:text="Restaurant" />
 
-    <TimePicker
-        android:id="@+id/fragment_create_meeting_from_tp"
-        android:layout_columnSpan="1"
-        android:layout_gravity="top|left" />
+        <AutoCompleteTextView
+            android:id="@+id/fragment_create_meeting_restaurant_actv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:ems="10"
+            android:text="AutoCompleteTextView" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_columnSpan="2"
-        android:layout_gravity="top|left"
-        android:text="To" />
+        <TextView
+            android:id="@+id/list_meeting_row_item_orders_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="From" />
 
-    <DatePicker
-        android:id="@+id/fragment_create_meeting_to_dp"
-        android:layout_columnSpan="1"
-        android:layout_gravity="top|left" />
+        <DatePicker
+            android:id="@+id/fragment_create_meeting_from_dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="left"
+            android:layout_row="3" />
 
-    <TimePicker
-        android:id="@+id/fragment_create_meeting_to_tp"
-        android:layout_columnSpan="1"
-        android:layout_gravity="top|left" />
+        <TimePicker
+            android:id="@+id/fragment_create_meeting_from_tp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_columnSpan="2"
-        android:layout_gravity="top|left"
-        android:text="Where to meet?" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="To" />
 
-    <EditText
-        android:id="@+id/fragment_create_meeting_location_et"
-        android:layout_columnSpan="2"
-        android:layout_gravity="top|fill_horizontal"
-        android:ems="10" />
+        <DatePicker
+            android:id="@+id/fragment_create_meeting_to_dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
 
-</GridLayout>
+        <TimePicker
+            android:id="@+id/fragment_create_meeting_to_tp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="Where to meet?" />
+
+        <EditText
+            android:id="@+id/fragment_create_meeting_location_et"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|fill_horizontal"
+            android:ems="10" />
+
+        <Button
+            android:id="@+id/fragment_create_meeting_add_participant_bt"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_row="9"
+            android:text="Add Paticipant(s)" />
+
+        <Button
+            android:id="@+id/fragment_create_meeting_validate_bt"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|center_horizontal"
+            android:text="OK" />
+    </GridLayout>
+
+</ScrollView>

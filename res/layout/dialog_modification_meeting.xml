@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="Name :" />
+
+        <EditText
+            android:id="@+id/dialog_modification_meeting_name_et"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|fill_horizontal"
+            android:ems="10" >
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/list_meeting_row_item_orders_title_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="From :" />
+
+        <DatePicker
+            android:id="@+id/dialog_modification_meeting_from_dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
+
+        <TimePicker
+            android:id="@+id/dialog_modification_meeting_from_tp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="To :" />
+
+        <DatePicker
+            android:id="@+id/dialog_modification_meeting_to_dp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
+
+        <TimePicker
+            android:id="@+id/dialog_modification_meeting_to_tp"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left" />
+
+        <Button
+            android:id="@+id/dialog_modification_meeting_validate_bt"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|center_horizontal"
+            android:text="OK" />
+    </GridLayout>
+
+</ScrollView>

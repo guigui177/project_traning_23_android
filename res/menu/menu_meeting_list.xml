@@ -5,6 +5,7 @@
         android:id="@+id/menu_meeting_list_add_b"
         android:icon="@android:drawable/ic_input_add"
         android:title="@string/menu_meeting_list_add_b"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:orderInCategory="1"/>
 
 </menu>

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_list_meeting_lv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <ListView
+        android:id="@+id/dialog_meeting_manage_participant_friends_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.9" >
+
+    </ListView>
+
     <Button
-        android:id="@+id/fragment_list_meeting_add_b"
+        android:id="@+id/dialog_meeting_manage_participant_validate_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
-        android:text="Add" />
-    
-    <ExpandableListView
-        android:id="@+id/fragment_list_meeting_Explv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_weight="0.1"
+        android:text="OK" />
 
 </LinearLayout>

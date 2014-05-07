@@ -5,16 +5,18 @@ import java.util.List;
 
 public class Meeting {
 	private int id;
+	private String name;
 	private Date date;
 	private List<Participant> participants;
 	private Restaurant resto;
 	private String status;
 	private boolean notification;
 
-	public Meeting(int id, Date date, List<Participant> participants,
+	public Meeting(int id, String name, Date date, List<Participant> participants,
 			Restaurant resto, String status, boolean notification) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.date = date;
 		this.participants = participants;
 		this.resto = resto;
@@ -76,5 +78,13 @@ public class Meeting {
 	
 	public void removeParticipant(int location) {
 		this.participants.remove(location);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
