@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dialog_meeting_manage_participant_item_name_ct"
+    android:id="@+id/dialog_meeting_manage_participant_item_main_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >

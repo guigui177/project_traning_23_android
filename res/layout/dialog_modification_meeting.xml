@@ -10,7 +10,7 @@
         android:padding="5dp" >
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/dialog_modification_meeting_name_title_tv"
             android:layout_columnSpan="2"
             android:layout_gravity="top|left"
             android:text="Name :" />
@@ -19,13 +19,28 @@
             android:id="@+id/dialog_modification_meeting_name_et"
             android:layout_columnSpan="2"
             android:layout_gravity="top|fill_horizontal"
-            android:ems="10" >
+            android:ems="10"
+            android:singleLine="true" >
 
             <requestFocus />
         </EditText>
 
         <TextView
-            android:id="@+id/list_meeting_row_item_orders_title_tv"
+            android:id="@+id/dialog_modification_meeting_restaurant_name_title_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="Restaurant :" />
+
+        <AutoCompleteTextView
+            android:id="@+id/dialog_modification_meeting_restaurant_name_actv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|fill_horizontal"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="AutoCompleteTextView" />
+
+        <TextView
+            android:id="@+id/dialog_modification_meeting_from_title_tv"
             android:layout_columnSpan="2"
             android:layout_gravity="top|left"
             android:text="From :" />
@@ -41,7 +56,7 @@
             android:layout_gravity="top|left" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/dialog_modification_meeting_to_title_tv"
             android:layout_columnSpan="2"
             android:layout_gravity="top|left"
             android:text="To :" />
@@ -55,6 +70,20 @@
             android:id="@+id/dialog_modification_meeting_to_tp"
             android:layout_columnSpan="2"
             android:layout_gravity="top|left" />
+
+        <TextView
+            android:id="@+id/dialog_modification_meeting_location_title_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|left"
+            android:text="Where to meet?" />
+
+        <EditText
+            android:id="@+id/dialog_modification_meeting_location_tv"
+            android:layout_columnSpan="2"
+            android:layout_gravity="top|fill_horizontal"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:maxLines="3" />
 
         <Button
             android:id="@+id/dialog_modification_meeting_validate_bt"

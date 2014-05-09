@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -63,8 +64,8 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
 			date_tv.setText("Le : " + DateFormat.format("MMMd kk:mm", meeting.getDate()));
 
-			TextView status = (TextView) convertView.findViewById(R.id.list_meeting_row_item_status_tv);
-			status.setText(meeting.getStatus().toString());
+			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
+			restaurant_name.setText(meeting.getResto().getName());
 
 			TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
 			final String orders = new String();
@@ -118,9 +119,9 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 		final Meeting meeting = meetings.get(groupPosition);
 
 		TextView name_meeting_tv = (TextView) convertView.findViewById(R.id.list_meeting_group_item_name_meeting_tv);
-		TextView name_restaurant_tv = (TextView) convertView.findViewById(R.id.list_meeting_group_item_name_restaurant_tv);		
+		TextView status_tv = (TextView) convertView.findViewById(R.id.list_meeting_group_item_status_tv);		
 		name_meeting_tv.setText(meeting.getName());
-		name_restaurant_tv.setText(meeting.getResto().getName());
+		status_tv.setText(meeting.getStatus());
 
 		Button modify_bt = (Button) convertView.findViewById(R.id.list_meeting_group_item_validate_bt);
 		Button participant_bt = (Button) convertView.findViewById(R.id.list_meeting_group_item_participant_bt);
@@ -132,7 +133,6 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(act, "modif", Toast.LENGTH_SHORT).show();
 				modifyMeeting(meeting);
 			}
 		});
@@ -171,17 +171,24 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 		EditText name_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_name_et);
 		name_et.setText(meeting.getName());
+		
+		AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+		actv.setText("");
+		final String[] autocstr = {"resto1", "resto2"};
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
+		actv.setAdapter(adapter);
 
 		DatePicker from_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_dp);
-		from_dp.updateDate(meeting.getDate().getYear(), meeting.getDate().getMonth(), meeting.getDate().getDay());
 		from_dp.setCalendarViewShown(false);
+		Toast.makeText(act, String.valueOf(meeting.getDate().getYear()), Toast.LENGTH_SHORT).show();
+		from_dp.updateDate(meeting.getDate().getYear() + 1900, meeting.getDate().getMonth() - 1, meeting.getDate().getDate());
 
 		TimePicker from_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_tp);
 		from_tp.setCurrentHour(meeting.getDate().getHours());
 		from_tp.setCurrentMinute(meeting.getDate().getMinutes());
 
 		DatePicker to_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_to_dp);
-		to_dp.updateDate(meeting.getDate().getYear(), meeting.getDate().getMonth(), meeting.getDate().getDay());
+		to_dp.updateDate(meeting.getDate().getYear() + 1900, meeting.getDate().getMonth() - 1, meeting.getDate().getDate());
 		to_dp.setCalendarViewShown(false);
 
 		TimePicker to_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_to_tp);
@@ -231,6 +238,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 		gu2.setUserName("titi");
 		friends.add(gu1);
 		friends.add(gu2);
+		final List<List<Integer>> ctv_id = new ArrayList<List<Integer>>();
 		ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(act.getApplicationContext(), R.layout.dialog_meeting_manage_participant_item, friends) {
 
 			@Override
@@ -241,6 +249,12 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 				CheckBox name_ctv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
 				name_ctv.setText(getItem(position).getUserName());
 				name_ctv.setChecked(false);
+
+				List<Integer> l = new ArrayList<Integer>();
+				l.add(name_ctv.getId());
+				l.add(getItem(position).getId());
+				ctv_id.add(l);
+				
 				return convertView;
 			}
 

@@ -6,14 +6,14 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/list_meeting_row_item_date_time_tv"
+        android:id="@+id/list_meeting_row_item_restaurant_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:text="TextView" />
 
     <TextView
-        android:id="@+id/list_meeting_row_item_status_tv"
+        android:id="@+id/list_meeting_row_item_date_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"

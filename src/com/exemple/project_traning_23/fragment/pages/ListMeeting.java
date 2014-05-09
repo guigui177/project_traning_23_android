@@ -73,8 +73,8 @@ public class ListMeeting  extends AFragment implements OnClickListener {
 		participants2.add(new Participant(2, "momo", Status.DECLINED));
 		participants2.add(new Participant(3, "mama", Status.PENDING));
 
-		GregorianCalendar date = new GregorianCalendar(2014, 0, 1, 1, 0);
-
+		GregorianCalendar date = new GregorianCalendar(2014, 1, 1, 1, 0);
+		
 		Meeting meeting1 = new Meeting(1, "anniv", date.getTime(), participants1, new Restaurant("coco", 50, 30, "pas loin", "coco@html.fr", (float)75.02, (float)46.05), Status.CONFIRMED, true);
 		Meeting meeting2 = new Meeting(2, "boulot", date.getTime(), participants2, new Restaurant("hello", 50, 30, "par ici", "hello@html.fr", (float)75.02, (float)46.05), Status.PENDING, true);
 
@@ -101,13 +101,10 @@ public class ListMeeting  extends AFragment implements OnClickListener {
 			//appel du fragment ajout meeting
 			final FragmentManager fm = getActivity().getSupportFragmentManager();
 			final FragmentTransaction ft = fm.beginTransaction();
-//			ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-			// Replace current fragment by the new one.
 			ft.replace(R.id.content_frame, new CreateMeeting());
 			// Null on the back stack to return on the previous fragment when user
 			// press on back button.
 			ft.addToBackStack(null);
-			// Commit changes.
 			ft.commit();
 			break;
 		default:
