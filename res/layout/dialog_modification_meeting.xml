@@ -78,7 +78,7 @@
             android:text="Where to meet?" />
 
         <EditText
-            android:id="@+id/dialog_modification_meeting_location_tv"
+            android:id="@+id/dialog_modification_meeting_location_et"
             android:layout_columnSpan="2"
             android:layout_gravity="top|fill_horizontal"
             android:ems="10"

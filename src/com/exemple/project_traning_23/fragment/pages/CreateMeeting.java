@@ -5,9 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Dialog;
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,16 +21,12 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.project_traning_23.R;
-import com.example.project_traning_23.R.id;
 import com.example.project_traning_23.model.Good_user;
-import com.example.project_traning_23.model.Meeting;
 import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
 import com.example.project_traning_23.utils.Project_traning_RestClient;
 import com.exemple.project_traning_23.fragment.AFragment;
