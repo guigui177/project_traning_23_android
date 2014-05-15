@@ -7,17 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import com.example.project_traning_23.R;
-import com.example.project_traning_23.R.id;
 import com.example.project_traning_23.model.Good_user;
 import com.example.project_traning_23.model.Meeting;
-import com.example.project_traning_23.model.Participant;
 import com.example.project_traning_23.model.Restaurant;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.Color;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +25,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -112,6 +107,8 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
+		if (meetings.size() == 0)
+			return 0;
 		return 1;
 	}
 
@@ -233,7 +230,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 			final EditText location_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_location_et);
 			location_et.setText(meeting.getAddress());
-			
+
 			Button validate_bt = (Button) dialog.findViewById(R.id.dialog_modification_meeting_validate_bt);
 			validate_bt.setOnClickListener(new OnClickListener() {
 
@@ -287,7 +284,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			@Override
 			public void onFailure(Throwable error) {
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(act.getApplicationContext(), "requette list users failed " , Toast.LENGTH_LONG).show();
+				Toast.makeText(act.getApplicationContext(), "modifyParticipants : requette list users/read " , Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -331,10 +328,10 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			@Override
 			public void onClick(View v) {
 				//update and reload the data
+				List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
 				for (int i = 0; i < actv_id.size(); ++i) {
 					CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
 					if (cb.isChecked()) {
-						List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
 						for (int j = 0; j < participants.size(); ++j) {
 							if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
 								break;

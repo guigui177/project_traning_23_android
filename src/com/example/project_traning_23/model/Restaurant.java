@@ -131,7 +131,7 @@ public class Restaurant extends Project_traning_Model{
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "requette list friend faild " , Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "Restaurant getById : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
 		return restaurant;
@@ -158,7 +158,7 @@ public class Restaurant extends Project_traning_Model{
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "requette list friend faild " , Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "getAllRestaurant : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
 		return restaurants;		

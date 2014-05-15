@@ -21,11 +21,11 @@ public class Meeting extends Project_traning_Model{
 	private String address;
 	private String name;
 	private String status;
-	private String id_restaurant;
-
+	private String restaurant_id;
+	private String owner_id;
 
 	public Meeting(String id, String startDate, String endDate, String address,
-			String name, String status) {
+			String name, String status, String owner_id, String id_restaurant) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
@@ -33,6 +33,8 @@ public class Meeting extends Project_traning_Model{
 		this.address = address;
 		this.name = name;
 		this.status = status;
+		this.owner_id = owner_id;
+		this.restaurant_id = id_restaurant;
 	}
 
 	public String getId() {
@@ -84,16 +86,24 @@ public class Meeting extends Project_traning_Model{
 	}
 
 	public String getId_restaurant() {
-		return id_restaurant;
+		return restaurant_id;
 	}
 
 	public void setId_restaurant(String id_restaurant) {
-		this.id_restaurant = id_restaurant;
+		this.restaurant_id = id_restaurant;
+	}
+
+	public String getOwner_id() {
+		return owner_id;
+	}
+
+	public void setOwner_id(String owner_id) {
+		this.owner_id = owner_id;
 	}
 
 	public static List<Meeting> getAllMeetings(final Context context) {
 		final List<Meeting> meetings = new ArrayList<Meeting>();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "users/meetings/read", null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/meetings/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
@@ -112,7 +122,7 @@ public class Meeting extends Project_traning_Model{
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "requette list friend faild " , Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "getAllMeetings : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
 		return meetings;
@@ -139,7 +149,7 @@ public class Meeting extends Project_traning_Model{
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "requette list friend faild " , Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "getAllParticipants : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
 		return participants;		
@@ -151,7 +161,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("address", this.address);
 			json.put("startDate", this.startDate);
 			json.put("endDate", this.endDate);
-			json.put("restaurant_id", this.id_restaurant);
+			json.put("restaurant_id", this.restaurant_id);
 			json.put("name", this.name);
 
 			Project_traning_RestClient.putWithBody(context, "/meetings/" + this.id + "/update", json.toString(), false, 
@@ -164,7 +174,35 @@ public class Meeting extends Project_traning_Model{
 				public void onFailure(Throwable error)
 				{
 					System.out.println(error.getLocalizedMessage());
-					Toast.makeText(context, "requette add friend faild " , Toast.LENGTH_LONG).show();
+					Toast.makeText(context, "updateMeeting : failed " , Toast.LENGTH_LONG).show();
+				}
+			});
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void createMeeting(final Context context) {
+		try {
+			JSONObject json = new JSONObject();
+			json.put("address", this.address);
+			json.put("startDate", this.startDate);
+			json.put("endDate", this.endDate);
+			json.put("restaurant_id", this.restaurant_id);
+			json.put("name", this.name);
+			json.put("owner_id", this.owner_id);
+
+			Project_traning_RestClient.putWithBody(context, "/meetings/create", json.toString(), false, 
+					new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String response) {
+					System.out.println(response);
+					Toast.makeText(context, "the meeting is created!", Toast.LENGTH_LONG).show();
+				}
+				public void onFailure(Throwable error)
+				{
+					System.out.println(error.getLocalizedMessage());
+					Toast.makeText(context, "createMeeting : failed " , Toast.LENGTH_LONG).show();
 				}
 			});
 		} catch (JSONException e) {
@@ -184,7 +222,7 @@ public class Meeting extends Project_traning_Model{
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "requette add friend faild " , Toast.LENGTH_LONG).show();
+				Toast.makeText(context, "addParticipantToMeeting : faild " , Toast.LENGTH_LONG).show();
 			}
 		});
 	}

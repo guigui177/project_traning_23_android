@@ -1,7 +1,9 @@
 package com.exemple.project_traning_23.fragment.pages;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Dialog;
@@ -15,18 +17,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.example.project_traning_23.R;
 import com.example.project_traning_23.model.Good_user;
+import com.example.project_traning_23.model.Meeting;
+import com.example.project_traning_23.model.Restaurant;
 import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
 import com.example.project_traning_23.utils.Project_traning_RestClient;
 import com.exemple.project_traning_23.fragment.AFragment;
@@ -35,6 +42,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 public class CreateMeeting extends AFragment implements OnClickListener {
 
 	private Dialog dialog;
+	private Meeting meeting = new Meeting(null, null, null, null, null, null, null, null);
+	private List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
+	private List<String> new_participants = new ArrayList<String>();
+
 
 	@Override
 	public int getMenuTitle() {
@@ -44,13 +55,24 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		final String[] autocstr = {"resto1", "resto2"};
 		View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
 
 		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
 		actv.setText("");
+		final List<Restaurant> restaurants = Restaurant.getAllRestaurant(getActivity().getApplicationContext());
+		List<String> autocstr = new ArrayList<String>();
+		for (int i = 0; i < restaurants.size(); ++i)
+			autocstr.add(restaurants.get(i).getName());
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, autocstr);
 		actv.setAdapter(adapter);
+		actv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long rowId) {
+				meeting.setId_restaurant(restaurants.get(position).getId());
+			}
+		});
 
 		Calendar today = Calendar.getInstance();
 		final DatePicker fromdp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
@@ -113,15 +135,21 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 				}
 			});
 
-
+			
 			ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(getActivity(), R.layout.dialog_meeting_manage_participant_item, friends) {
 
 				@Override
 				public View getView(int position, View convertView,
 						ViewGroup parent) {
-					CheckedTextView name_ctv = (CheckedTextView) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
-					name_ctv.setText(getItem(position).getUserName());
-					name_ctv.setChecked(false);
+					CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+					name_actv.setText(getItem(position).getUserName());
+					name_actv.setChecked(false);
+
+					List<Integer> l = new ArrayList<Integer>();
+					l.add(name_actv.getId());
+					l.add(getItem(position).getId());
+					actv_id.add(l);
+
 					return convertView;
 				}
 			};
@@ -138,13 +166,45 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 
 			View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_create_meeting, null);
 			EditText meeting_name = (EditText) view.findViewById(R.id.fragment_create_meeting_name_et);
-			AutoCompleteTextView restaurant_name = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
 			DatePicker from_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
 			TimePicker from_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_from_tp);
 			DatePicker to_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_to_dp);
 			TimePicker to_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_to_tp);
 			EditText location = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
 			
+			meeting.setAddress(location.getText().toString());
+			meeting.setName(meeting_name.getText().toString());
+			Date d = new Date();
+			d.setDate(to_dp.getDayOfMonth());
+			d.setMonth(to_dp.getMonth());
+			d.setYear(to_dp.getYear());
+			d.setHours(to_tp.getCurrentHour());
+			d.setMinutes(to_tp.getCurrentMinute());
+			SimpleDateFormat s = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+			meeting.setEndDate(s.format(d));
+			d.setDate(from_dp.getDayOfMonth());
+			d.setMonth(from_dp.getMonth());
+			d.setYear(from_dp.getYear());
+			d.setHours(from_tp.getCurrentHour());
+			d.setMinutes(from_tp.getCurrentMinute());
+			meeting.setStartDate(s.format(d));
+			
+//			RECUPERER ID USER POUR CREATION DU MEETING
+//			ET POUR LA LISTE DES PARTICIPANTS DU MEETING
+
+			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext()).getId()));
+			meeting.createMeeting(getActivity().getApplicationContext());
+			
+			List<Meeting> meetings= Meeting.getAllMeetings(getActivity().getApplicationContext());
+			for (int i = 0; i < meetings.size(); ++i)
+				if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
+					meeting = meetings.get(i);
+					break;
+				}
+			
+			for (int i = 0; i < new_participants.size(); ++i) {
+				meeting.addParticipantToMeeting(getActivity(), new_participants.get(i));
+			}
 			
 			//retour au fragment list meeting
 			final FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -156,7 +216,18 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			ft.commit();
 			break;
 		case R.id.dialog_meeting_manage_participant_validate_bt:
-			//send the new information to the api
+			List<Good_user> participants = meeting.getAllParticipants(getActivity().getApplicationContext());
+			for (int i = 0; i < actv_id.size(); ++i) {
+				CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
+				if (cb.isChecked()) {
+					for (int j = 0; j < participants.size(); ++j) {
+						if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
+							break;
+						else if (j == participants.size())
+							this.new_participants.add(String.valueOf(actv_id.get(i).get(1)));
+					}
+				}
+			}
 			dialog.cancel();
 			break;
 		default:
