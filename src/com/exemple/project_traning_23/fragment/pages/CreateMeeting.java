@@ -56,23 +56,23 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
 
-//		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
-//		actv.setText("");
+		//		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
+		//		actv.setText("");
 		Restaurant.getAllRestaurant(getActivity().getApplicationContext(), view, meeting, 0);
-//		final List<Restaurant> restaurants = Restaurant.getAllRestaurant(getActivity().getApplicationContext());
-//		List<String> autocstr = new ArrayList<String>();
-//		for (int i = 0; i < restaurants.size(); ++i)
-//			autocstr.add(restaurants.get(i).getName());
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, autocstr);
-//		actv.setAdapter(adapter);
-//		actv.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long rowId) {
-//				meeting.setId_restaurant(restaurants.get(position).getId());
-//			}
-//		});
+		//		final List<Restaurant> restaurants = Restaurant.getAllRestaurant(getActivity().getApplicationContext());
+		//		List<String> autocstr = new ArrayList<String>();
+		//		for (int i = 0; i < restaurants.size(); ++i)
+		//			autocstr.add(restaurants.get(i).getName());
+		//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, autocstr);
+		//		actv.setAdapter(adapter);
+		//		actv.setOnItemClickListener(new OnItemClickListener() {
+		//
+		//			@Override
+		//			public void onItemClick(AdapterView<?> parent, View view,
+		//					int position, long rowId) {
+		//				meeting.setId_restaurant(restaurants.get(position).getId());
+		//			}
+		//		});
 
 		Calendar today = Calendar.getInstance();
 		final DatePicker fromdp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
@@ -135,7 +135,12 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 						public View getView(int position, View convertView,
 								ViewGroup parent) {
 							Toast.makeText(getActivity().getApplicationContext(), "sleep 3", Toast.LENGTH_SHORT).show();
+							System.out.println("testttttttttttttttttttttttttttttttttttt");
+							if (convertView == null) {
+								convertView = getActivity().getLayoutInflater().inflate(R.layout.dialog_meeting_manage_participant_item, null);
+							}
 							CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+
 							name_actv.setText(getItem(position).getUserName());
 							name_actv.setChecked(false);
 
@@ -143,6 +148,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 							l.add(name_actv.getId());
 							l.add(getItem(position).getId());
 							actv_id.add(l);
+							System.out.println("okkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 							Toast.makeText(getActivity().getApplicationContext(), "sleep 5", Toast.LENGTH_SHORT).show();
 
 							return convertView;
@@ -174,7 +180,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			DatePicker to_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_to_dp);
 			TimePicker to_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_to_tp);
 			EditText location = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
-			
+
 			meeting.setAddress(location.getText().toString());
 			meeting.setName(meeting_name.getText().toString());
 			Date d = new Date();
@@ -191,28 +197,28 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			d.setHours(from_tp.getCurrentHour());
 			d.setMinutes(from_tp.getCurrentMinute());
 			meeting.setStartDate(s.format(d));
-			
-//			RECUPERER ID USER POUR CREATION DU MEETING
-//			ET POUR LA LISTE DES PARTICIPANTS DU MEETING
+
+			//			RECUPERER ID USER POUR CREATION DU MEETING
+			//			ET POUR LA LISTE DES PARTICIPANTS DU MEETING
 			List<Object> o = new ArrayList<Object>();
 			o.add(meeting);
 			o.add(new_participants);
 			Good_user.getUser(getActivity(), meeting, o);
-//
-//			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext(), meeting).getId()));
-//			meeting.createMeeting(getActivity(), new_participants);
-//			
-//			List<Meeting> meetings= Meeting.getAllMeetings(getActivity(), 1, null);
-//			for (int i = 0; i < meetings.size(); ++i)
-//				if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
-//					meeting = meetings.get(i);
-//					break;
-//				}
-//			
-//			for (int i = 0; i < new_participants.size(); ++i) {
-//				meeting.addParticipantToMeeting(getActivity(), new_participants.get(i));
-//			}
-			
+			//
+			//			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext(), meeting).getId()));
+			//			meeting.createMeeting(getActivity(), new_participants);
+			//			
+			//			List<Meeting> meetings= Meeting.getAllMeetings(getActivity(), 1, null);
+			//			for (int i = 0; i < meetings.size(); ++i)
+			//				if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
+			//					meeting = meetings.get(i);
+			//					break;
+			//				}
+			//			
+			//			for (int i = 0; i < new_participants.size(); ++i) {
+			//				meeting.addParticipantToMeeting(getActivity(), new_participants.get(i));
+			//			}
+
 			//retour au fragment list meeting
 			final FragmentManager fm = getActivity().getSupportFragmentManager();
 			final FragmentTransaction ft = fm.beginTransaction();
