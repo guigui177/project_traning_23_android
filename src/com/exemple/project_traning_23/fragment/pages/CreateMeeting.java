@@ -127,12 +127,14 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 					friend_list = test.adaptToList(response, Good_user.class);
 					for(int i = 0; i < friend_list.size(); i++)
 						friends.add(friend_list.get(i));
-					
+					Toast.makeText(getActivity().getApplicationContext(), "sleep 4", Toast.LENGTH_SHORT).show();
+
 					ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(getActivity(), R.layout.dialog_meeting_manage_participant_item, friends) {
 
 						@Override
 						public View getView(int position, View convertView,
 								ViewGroup parent) {
+							Toast.makeText(getActivity().getApplicationContext(), "sleep 3", Toast.LENGTH_SHORT).show();
 							CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
 							name_actv.setText(getItem(position).getUserName());
 							name_actv.setChecked(false);
@@ -141,6 +143,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 							l.add(name_actv.getId());
 							l.add(getItem(position).getId());
 							actv_id.add(l);
+							Toast.makeText(getActivity().getApplicationContext(), "sleep 5", Toast.LENGTH_SHORT).show();
 
 							return convertView;
 						}
