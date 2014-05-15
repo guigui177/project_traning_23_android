@@ -103,7 +103,7 @@ public class Meeting extends Project_traning_Model{
 
 	public static List<Meeting> getAllMeetings(final Context context) {
 		final List<Meeting> meetings = new ArrayList<Meeting>();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/meetings/read", null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "meetings/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
@@ -130,7 +130,7 @@ public class Meeting extends Project_traning_Model{
 
 	public List<Good_user> getAllParticipants(final Context context) {
 		final List<Good_user> participants = new ArrayList<Good_user>();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/meetings/"+ this.getId() +"/members/read", null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "meetings/"+ this.getId() +"/members/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
@@ -164,7 +164,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("restaurant_id", this.restaurant_id);
 			json.put("name", this.name);
 
-			Project_traning_RestClient.putWithBody(context, "/meetings/" + this.id + "/update", json.toString(), false, 
+			Project_traning_RestClient.putWithBody(context, "meetings/" + this.id + "/update", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {
@@ -192,7 +192,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("name", this.name);
 			json.put("owner_id", this.owner_id);
 
-			Project_traning_RestClient.putWithBody(context, "/meetings/create", json.toString(), false, 
+			Project_traning_RestClient.putWithBody(context, "meetings/create", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {
@@ -212,7 +212,7 @@ public class Meeting extends Project_traning_Model{
 
 	public void addParticipantToMeeting(final Context context, String p_id) {
 		JSONObject json = new JSONObject();
-		Project_traning_RestClient.putWithBody(context, "/meetings/" + this.id + "/members/add/" + p_id, json.toString(), false, 
+		Project_traning_RestClient.putWithBody(context, "meetings/" + this.id + "/members/add/" + p_id, json.toString(), false, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {

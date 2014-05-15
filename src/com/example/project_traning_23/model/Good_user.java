@@ -41,7 +41,7 @@ public class Good_user extends Project_traning_Model {
 
 	public static Good_user getUser(final Context context) {
 		final Good_user user = new Good_user();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/auth", null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "auth", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {

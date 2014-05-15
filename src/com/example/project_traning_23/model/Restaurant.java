@@ -117,7 +117,7 @@ public class Restaurant extends Project_traning_Model{
 
 	public static Restaurant getById(final Context context, String id_restaurant) {
 		final Restaurant restaurant = new Restaurant();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/restaurants/read/"+id_restaurant, null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "restaurants/read/"+id_restaurant, null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
@@ -139,7 +139,7 @@ public class Restaurant extends Project_traning_Model{
 	
 	public static List<Restaurant> getAllRestaurant(final Context context) {
 		final List<Restaurant> restaurants = new ArrayList<Restaurant>();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "/restaurants/read", null, 
+		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "restaurants/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {

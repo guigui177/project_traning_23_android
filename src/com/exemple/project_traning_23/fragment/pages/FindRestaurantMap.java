@@ -14,12 +14,16 @@ public class FindRestaurantMap extends AFragment {
 	public int getMenuTitle() {
 		return R.string.findrestaurantmap_title;
 	}
-
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_restaurant_map, container, false);
+		View v = inflater.inflate(R.layout.fragment_restaurant_map, container, false);
+		//		MapView map	= v.findViewById(R.id.)
+		
+		return v;
 	}
-	
+
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
