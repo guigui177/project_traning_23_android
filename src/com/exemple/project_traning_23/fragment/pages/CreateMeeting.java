@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -119,7 +120,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 				@Override
 				public View getView(int position, View convertView,
 						ViewGroup parent) {
-					CheckedTextView name_ctv = (CheckedTextView) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+					CheckBox name_ctv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
 					name_ctv.setText(getItem(position).getUserName());
 					name_ctv.setChecked(false);
 					return convertView;

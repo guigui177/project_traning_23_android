@@ -28,7 +28,8 @@ public class Webrestaurateur extends AFragment  {
 		    Intent i = new Intent("android.intent.action.MAIN");
 		    i.setComponent(ComponentName.unflattenFromString("com.android.chrome/com.android.chrome.Main"));
 		    i.addCategory("android.intent.category.LAUNCHER");
-		    i.setData(Uri.parse("http://mail.bjtu.edu.cn"));
+//		    i.setData(Uri.parse("http://mail.bjtu.edu.cn"));
+		    i.setData(Uri.parse("http://192.168.173.1:3000/webApp"));
 		    startActivity(i);
 		}
 		catch(ActivityNotFoundException e) {
