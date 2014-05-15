@@ -214,7 +214,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("name", this.name);
 			json.put("owner_id", this.owner_id);
 
-			Project_traning_RestClient.putWithBody(act.getApplicationContext(), "meetings/create", json.toString(), false, 
+			Project_traning_RestClient.postWithBody(act.getApplicationContext(), "meetings/create", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {

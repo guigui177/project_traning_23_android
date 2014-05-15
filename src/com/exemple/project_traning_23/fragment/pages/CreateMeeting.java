@@ -222,7 +222,9 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 		case R.id.dialog_meeting_manage_participant_validate_bt:
 			List<Good_user> participants = meeting.getAllParticipants(getActivity().getApplicationContext());
 			try {
+				Toast.makeText(getActivity().getApplicationContext(), "sleep 1", Toast.LENGTH_SHORT).show();
 				Thread.sleep(1000);
+				Toast.makeText(getActivity().getApplicationContext(), "sleep 2", Toast.LENGTH_SHORT).show();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
