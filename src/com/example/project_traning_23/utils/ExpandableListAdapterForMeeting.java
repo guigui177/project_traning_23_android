@@ -77,8 +77,9 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
-			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
+			Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant(), convertView, null, 1);
+//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
+//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
 
 			TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
 			final String orders = new String();
@@ -91,6 +92,11 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 			LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
 			List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			for (int i = 0; i < participants.size(); ++i) {
 				View view = inflater.inflate(R.layout.list_meeting_row_item_participant_item, null);
 				TextView name_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_name_tv);
@@ -189,22 +195,24 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			final EditText name_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_name_et);
 			name_et.setText(meeting.getName());
 
-			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
-			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
-			final List<Restaurant> restaurants = Restaurant.getAllRestaurant(act.getApplicationContext());
-			List<String> autocstr = new ArrayList<String>();
-			for (int i = 0; i < restaurants.size(); ++i)
-				autocstr.add(restaurants.get(i).getName());
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
-			actv.setAdapter(adapter);
-			actv.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long rowId) {
-					meeting.setId_restaurant(restaurants.get(position).getId());
-				}
-			});
+			Restaurant.getById(act, meeting.getId_restaurant(), dialog, meeting, 0);
+//			Restaurant.getAllRestaurant(act.getApplicationContext());
+//			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+//			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
+//			final List<Restaurant> restaurants = Restaurant.getAllRestaurant(act.getApplicationContext());
+//			List<String> autocstr = new ArrayList<String>();
+//			for (int i = 0; i < restaurants.size(); ++i)
+//				autocstr.add(restaurants.get(i).getName());
+//			ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
+//			actv.setAdapter(adapter);
+//			actv.setOnItemClickListener(new OnItemClickListener() {
+//
+//				@Override
+//				public void onItemClick(AdapterView<?> parent, View view,
+//						int position, long rowId) {
+//					meeting.setId_restaurant(restaurants.get(position).getId());
+//				}
+//			});
 
 			final DatePicker from_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_dp);
 			from_dp.setCalendarViewShown(false);
@@ -254,6 +262,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 					meeting.setStartDate(s.format(d));
 
 					meeting.setName(name_et.getText().toString());
+					meeting.updateMeeting(act.getApplicationContext());
 					dialog.cancel();
 				}
 			});
@@ -274,12 +283,66 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
+				final List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
 				List<Good_user> friend_list = new ArrayList<Good_user>();
 				System.out.println(response);
 				Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
 				friend_list = test.adaptToList(response, Good_user.class);
 				for(int i = 0; i < friend_list.size(); i++)
 					friends.add(friend_list.get(i));
+				ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(act.getApplicationContext(), R.layout.dialog_meeting_manage_participant_item, friends) {
+
+					@Override
+					public View getView(int position, View convertView,
+							ViewGroup parent) {
+						if (convertView == null)
+							convertView = inflater.inflate(R.layout.dialog_meeting_manage_participant_item, null);
+						CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+						name_actv.setText(getItem(position).getUserName());
+						name_actv.setChecked(false);
+
+						List<Integer> l = new ArrayList<Integer>();
+						l.add(name_actv.getId());
+						l.add(getItem(position).getId());
+						actv_id.add(l);
+
+						return convertView;
+					}
+
+					@Override
+					public Good_user getItem(int position) {
+						return friends.get(position);
+					}
+				};
+				ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
+				friends_lv.setAdapter(adapter);
+
+				Button validate_bt = (Button) dialog.findViewById(R.id.dialog_meeting_manage_participant_validate_bt);
+				validate_bt.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						//update and reload the data
+						List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						for (int i = 0; i < actv_id.size(); ++i) {
+							CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
+							if (cb.isChecked()) {
+								for (int j = 0; j < participants.size(); ++j) {
+									if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
+										break;
+									else if (j == participants.size())
+										meeting.addParticipantToMeeting(act.getApplicationContext(), String.valueOf(actv_id.get(i).get(1)));
+								}
+							}
+						}
+						dialog.cancel();
+					}
+				});
 			}
 			@Override
 			public void onFailure(Throwable error) {
@@ -288,61 +351,6 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			}
 		});
 
-		Good_user gu1 = new Good_user();
-		gu1.setUserName("toto");
-		Good_user gu2 = new Good_user();
-		gu2.setUserName("titi");
-		friends.add(gu1);
-		friends.add(gu2);
-		final List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
-		ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(act.getApplicationContext(), R.layout.dialog_meeting_manage_participant_item, friends) {
-
-			@Override
-			public View getView(int position, View convertView,
-					ViewGroup parent) {
-				if (convertView == null)
-					convertView = inflater.inflate(R.layout.dialog_meeting_manage_participant_item, null);
-				CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
-				name_actv.setText(getItem(position).getUserName());
-				name_actv.setChecked(false);
-
-				List<Integer> l = new ArrayList<Integer>();
-				l.add(name_actv.getId());
-				l.add(getItem(position).getId());
-				actv_id.add(l);
-
-				return convertView;
-			}
-
-			@Override
-			public Good_user getItem(int position) {
-				return friends.get(position);
-			}
-		};
-		ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
-		friends_lv.setAdapter(adapter);
-
-		Button validate_bt = (Button) dialog.findViewById(R.id.dialog_meeting_manage_participant_validate_bt);
-		validate_bt.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				//update and reload the data
-				List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
-				for (int i = 0; i < actv_id.size(); ++i) {
-					CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
-					if (cb.isChecked()) {
-						for (int j = 0; j < participants.size(); ++j) {
-							if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
-								break;
-							else if (j == participants.size())
-								meeting.addParticipantToMeeting(act.getApplicationContext(), String.valueOf(actv_id.get(i).get(1)));
-						}
-					}
-				}
-				dialog.cancel();
-			}
-		});
 		dialog.show();
 	}
 

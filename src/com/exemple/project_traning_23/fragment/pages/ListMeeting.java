@@ -12,10 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import com.example.project_traning_23.R;
 import com.example.project_traning_23.model.Meeting;
-import com.example.project_traning_23.utils.ExpandableListAdapterForMeeting;
 import com.exemple.project_traning_23.fragment.AFragment;
 
 public class ListMeeting  extends AFragment implements OnClickListener {
@@ -38,10 +36,11 @@ public class ListMeeting  extends AFragment implements OnClickListener {
 //		testData();
 //		setMeetingsDatas();
 		Log.d("debug", "avant expandable");
-		ExpandableListAdapterForMeeting elafm = new ExpandableListAdapterForMeeting(getActivity(), Meeting.getAllMeetings(getActivity().getApplicationContext()));
+		Meeting.getAllMeetings(getActivity(), 0, view);
+//		ExpandableListAdapterForMeeting elafm = new ExpandableListAdapterForMeeting(getActivity(), Meeting.getAllMeetings(getActivity().getApplicationContext()));
 		Log.d("debug", "apres expandable");
-		ExpandableListView expla = (ExpandableListView) view.findViewById(R.id.fragment_list_meeting_Explv);
-		expla.setAdapter(elafm);
+//		ExpandableListView expla = (ExpandableListView) view.findViewById(R.id.fragment_list_meeting_Explv);
+//		expla.setAdapter(elafm);
 		Button add_b = (Button) view.findViewById(R.id.fragment_list_meeting_add_b);
 		add_b.setOnClickListener(this);
 		return view;

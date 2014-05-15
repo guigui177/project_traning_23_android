@@ -6,9 +6,14 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import com.example.project_traning_23.R;
+import com.example.project_traning_23.utils.ExpandableListAdapterForMeeting;
 import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
 import com.example.project_traning_23.utils.Project_traning_Model;
 import com.example.project_traning_23.utils.Project_traning_RestClient;
@@ -101,9 +106,9 @@ public class Meeting extends Project_traning_Model{
 		this.owner_id = owner_id;
 	}
 
-	public static List<Meeting> getAllMeetings(final Context context) {
+	public static void getAllMeetings(final Activity act, final int choice, final Object o) {
 		final List<Meeting> meetings = new ArrayList<Meeting>();
-		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "meetings/read", null, 
+		Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "meetings/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
@@ -117,15 +122,32 @@ public class Meeting extends Project_traning_Model{
 					m = rep.get(i);					
 					meetings.add(m);
 				}
+				if (choice == 0) {
+					ExpandableListAdapterForMeeting elafm = new ExpandableListAdapterForMeeting(act, meetings);
+					ExpandableListView expla = (ExpandableListView) ((View) o).findViewById(R.id.fragment_list_meeting_Explv);
+					expla.setAdapter(elafm);
+				}
+				else if (choice == 1) {
+					Meeting meeting = ((Meeting)((List<Object>) o).get(0));
+					List<String> new_participants = ((List<String>)((List<Object>) o).get(1));
+					for (int i = 0; i < meetings.size(); ++i)
+						if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
+							meeting = meetings.get(i);
+							break;
+						}
+					
+					for (int i = 0; i < new_participants.size() && meeting == null; ++i) {
+						meeting.addParticipantToMeeting(act, new_participants.get(i));
+					}
+				}
 			}
 			@Override
 			public void onFailure(Throwable error)
 			{
 				System.out.println(error.getLocalizedMessage());
-				Toast.makeText(context, "getAllMeetings : failed " , Toast.LENGTH_LONG).show();
+				Toast.makeText(act.getApplicationContext(), "getAllMeetings : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
-		return meetings;
 	}
 
 	public List<Good_user> getAllParticipants(final Context context) {
@@ -182,7 +204,7 @@ public class Meeting extends Project_traning_Model{
 		}
 	}
 
-	public void createMeeting(final Context context) {
+	public void createMeeting(final Activity act, final List<Object> o) {
 		try {
 			JSONObject json = new JSONObject();
 			json.put("address", this.address);
@@ -192,17 +214,18 @@ public class Meeting extends Project_traning_Model{
 			json.put("name", this.name);
 			json.put("owner_id", this.owner_id);
 
-			Project_traning_RestClient.putWithBody(context, "meetings/create", json.toString(), false, 
+			Project_traning_RestClient.putWithBody(act.getApplicationContext(), "meetings/create", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {
 					System.out.println(response);
-					Toast.makeText(context, "the meeting is created!", Toast.LENGTH_LONG).show();
+					Toast.makeText(act.getApplicationContext(), "the meeting is created!", Toast.LENGTH_LONG).show();
+					Meeting.getAllMeetings(act, 1, o);
 				}
 				public void onFailure(Throwable error)
 				{
 					System.out.println(error.getLocalizedMessage());
-					Toast.makeText(context, "createMeeting : failed " , Toast.LENGTH_LONG).show();
+					Toast.makeText(act.getApplicationContext(), "createMeeting : failed " , Toast.LENGTH_LONG).show();
 				}
 			});
 		} catch (JSONException e) {

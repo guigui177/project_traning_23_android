@@ -56,22 +56,23 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
 
-		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
-		actv.setText("");
-		final List<Restaurant> restaurants = Restaurant.getAllRestaurant(getActivity().getApplicationContext());
-		List<String> autocstr = new ArrayList<String>();
-		for (int i = 0; i < restaurants.size(); ++i)
-			autocstr.add(restaurants.get(i).getName());
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, autocstr);
-		actv.setAdapter(adapter);
-		actv.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long rowId) {
-				meeting.setId_restaurant(restaurants.get(position).getId());
-			}
-		});
+//		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.fragment_create_meeting_restaurant_actv);
+//		actv.setText("");
+		Restaurant.getAllRestaurant(getActivity().getApplicationContext(), view, meeting, 0);
+//		final List<Restaurant> restaurants = Restaurant.getAllRestaurant(getActivity().getApplicationContext());
+//		List<String> autocstr = new ArrayList<String>();
+//		for (int i = 0; i < restaurants.size(); ++i)
+//			autocstr.add(restaurants.get(i).getName());
+//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, autocstr);
+//		actv.setAdapter(adapter);
+//		actv.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long rowId) {
+//				meeting.setId_restaurant(restaurants.get(position).getId());
+//			}
+//		});
 
 		Calendar today = Calendar.getInstance();
 		final DatePicker fromdp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
@@ -126,6 +127,26 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 					friend_list = test.adaptToList(response, Good_user.class);
 					for(int i = 0; i < friend_list.size(); i++)
 						friends.add(friend_list.get(i));
+					
+					ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(getActivity(), R.layout.dialog_meeting_manage_participant_item, friends) {
+
+						@Override
+						public View getView(int position, View convertView,
+								ViewGroup parent) {
+							CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+							name_actv.setText(getItem(position).getUserName());
+							name_actv.setChecked(false);
+
+							List<Integer> l = new ArrayList<Integer>();
+							l.add(name_actv.getId());
+							l.add(getItem(position).getId());
+							actv_id.add(l);
+
+							return convertView;
+						}
+					};
+					ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
+					friends_lv.setAdapter(adapter);
 				}
 				@Override
 				public void onFailure(Throwable error) {
@@ -134,26 +155,6 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 				}
 			});
 
-			
-			ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(getActivity(), R.layout.dialog_meeting_manage_participant_item, friends) {
-
-				@Override
-				public View getView(int position, View convertView,
-						ViewGroup parent) {
-					CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
-					name_actv.setText(getItem(position).getUserName());
-					name_actv.setChecked(false);
-
-					List<Integer> l = new ArrayList<Integer>();
-					l.add(name_actv.getId());
-					l.add(getItem(position).getId());
-					actv_id.add(l);
-
-					return convertView;
-				}
-			};
-			ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
-			friends_lv.setAdapter(adapter);
 
 			Button validate_bt = (Button) dialog.findViewById(R.id.dialog_meeting_manage_participant_validate_bt);
 			validate_bt.setOnClickListener(this);
@@ -190,20 +191,24 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			
 //			RECUPERER ID USER POUR CREATION DU MEETING
 //			ET POUR LA LISTE DES PARTICIPANTS DU MEETING
-
-			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext()).getId()));
-			meeting.createMeeting(getActivity().getApplicationContext());
-			
-			List<Meeting> meetings= Meeting.getAllMeetings(getActivity().getApplicationContext());
-			for (int i = 0; i < meetings.size(); ++i)
-				if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
-					meeting = meetings.get(i);
-					break;
-				}
-			
-			for (int i = 0; i < new_participants.size(); ++i) {
-				meeting.addParticipantToMeeting(getActivity(), new_participants.get(i));
-			}
+			List<Object> o = new ArrayList<Object>();
+			o.add(meeting);
+			o.add(new_participants);
+			Good_user.getUser(getActivity(), meeting, o);
+//
+//			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext(), meeting).getId()));
+//			meeting.createMeeting(getActivity(), new_participants);
+//			
+//			List<Meeting> meetings= Meeting.getAllMeetings(getActivity(), 1, null);
+//			for (int i = 0; i < meetings.size(); ++i)
+//				if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
+//					meeting = meetings.get(i);
+//					break;
+//				}
+//			
+//			for (int i = 0; i < new_participants.size(); ++i) {
+//				meeting.addParticipantToMeeting(getActivity(), new_participants.get(i));
+//			}
 			
 			//retour au fragment list meeting
 			final FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -216,6 +221,11 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			break;
 		case R.id.dialog_meeting_manage_participant_validate_bt:
 			List<Good_user> participants = meeting.getAllParticipants(getActivity().getApplicationContext());
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			for (int i = 0; i < actv_id.size(); ++i) {
 				CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
 				if (cb.isChecked()) {

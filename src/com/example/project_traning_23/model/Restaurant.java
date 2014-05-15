@@ -3,13 +3,21 @@ package com.example.project_traning_23.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.project_traning_23.R;
 import com.example.project_traning_23.utils.Project_traning_AdaptResponse;
 import com.example.project_traning_23.utils.Project_traning_Model;
 import com.example.project_traning_23.utils.Project_traning_RestClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class Restaurant extends Project_traning_Model{
 	private String id;
@@ -20,11 +28,11 @@ public class Restaurant extends Project_traning_Model{
 	private String name;
 	private String category;
 	private String mail;
-	
+
 	public Restaurant() {
 		super();
 	}
-	
+
 	public Restaurant(String id, String address, String postalCode,
 			String city, String description, String name,
 			String category, String mail) {
@@ -48,9 +56,9 @@ public class Restaurant extends Project_traning_Model{
 		this.name = r.name;
 		this.category = r.category;
 		this.mail = r.mail;
-		
+
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -115,7 +123,7 @@ public class Restaurant extends Project_traning_Model{
 		this.mail = mail;
 	}
 
-	public static Restaurant getById(final Context context, String id_restaurant) {
+	public static void getById(final Context context, String id_restaurant, final Object d, final Meeting meeting, final int choice) {
 		final Restaurant restaurant = new Restaurant();
 		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "restaurants/read/"+id_restaurant, null, 
 				new AsyncHttpResponseHandler() {
@@ -126,6 +134,16 @@ public class Restaurant extends Project_traning_Model{
 				Project_traning_AdaptResponse<Restaurant> test = new Project_traning_AdaptResponse<Restaurant>();
 				rep = test.adaptToModel(response, Restaurant.class);
 				restaurant.setRestaurant(rep);
+				if (choice == 0) {
+					List<Object> no = new ArrayList<Object>();
+					no.add(d);
+					no.add(restaurant.getName());
+					Restaurant.getAllRestaurant(context, no, meeting, 1);
+				}
+				if (choice == 1) {
+					TextView restaurant_name = (TextView) ((View) d).findViewById(R.id.list_meeting_row_item_restaurant_tv);
+					restaurant_name.setText(restaurant.getName());
+				}
 			}
 			@Override
 			public void onFailure(Throwable error)
@@ -134,10 +152,9 @@ public class Restaurant extends Project_traning_Model{
 				Toast.makeText(context, "Restaurant getById : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
-		return restaurant;
 	}
-	
-	public static List<Restaurant> getAllRestaurant(final Context context) {
+
+	public static void getAllRestaurant(final Context context, final Object o, final Meeting meeting, final int choice) {
 		final List<Restaurant> restaurants = new ArrayList<Restaurant>();
 		Project_traning_RestClient.getWithboddy(context.getApplicationContext(), "restaurants/read", null, 
 				new AsyncHttpResponseHandler() {
@@ -153,6 +170,42 @@ public class Restaurant extends Project_traning_Model{
 					r = rep.get(i);					
 					restaurants.add(r);
 				}
+				if (choice == 0) {
+					final AutoCompleteTextView actv = (AutoCompleteTextView) ((View)o).findViewById(R.id.fragment_create_meeting_restaurant_actv);
+					actv.setText("");
+					List<String> autocstr = new ArrayList<String>();
+					for (int i = 0; i < restaurants.size(); ++i)
+						autocstr.add(restaurants.get(i).getName());
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_dropdown_item, autocstr);
+					actv.setAdapter(adapter);
+					actv.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view,
+								int position, long rowId) {
+							meeting.setId_restaurant(restaurants.get(position).getId());
+						}
+					});
+				}
+				else if (choice == 1) {
+					Dialog d = (Dialog) ((List<Object>)o).get(0);
+					String resto_name = (String) ((List<Object>)o).get(1);
+					AutoCompleteTextView actv = (AutoCompleteTextView) d.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+					actv.setText(resto_name);
+					List<String> autocstr = new ArrayList<String>();
+					for (int i = 0; i < restaurants.size(); ++i)
+						autocstr.add(restaurants.get(i).getName());
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_dropdown_item, autocstr);
+					actv.setAdapter(adapter);
+					actv.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view,
+								int position, long rowId) {
+							meeting.setId_restaurant(restaurants.get(position).getId());
+						}
+					});
+				}
 			}
 			@Override
 			public void onFailure(Throwable error)
@@ -160,7 +213,6 @@ public class Restaurant extends Project_traning_Model{
 				System.out.println(error.getLocalizedMessage());
 				Toast.makeText(context, "getAllRestaurant : failed " , Toast.LENGTH_LONG).show();
 			}
-		});	
-		return restaurants;		
+		});
 	}
 }
