@@ -59,56 +59,71 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		final Meeting meeting = (Meeting) getChild(groupPosition, childPosition);
-		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.list_meeting_row_item, null);
-			TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-				Date dfrom, dto;
-				dfrom = sdf.parse(meeting.getStartDate());
+		try {
+			final Meeting meeting = (Meeting) getChild(groupPosition, childPosition);
+			if (convertView == null) {
+				convertView = inflater.inflate(R.layout.list_meeting_row_item, null);
+				TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
+				String sfrom = null, sto = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy'T'HH:mm:ss");
+
+				Date dfrom = sdf.parse(meeting.getStartDate());
 				sdf.applyLocalizedPattern("'Le' dd/MM 'de' HH:mm ");
-				String sfrom = sdf.format(dfrom);
-				sdf.applyLocalizedPattern("MM-dd-yyyy HH:mm:ss");
-				dto = sdf.parse(meeting.getEndDate());
+				sfrom = sdf.format(dfrom);
+
+				sdf.applyLocalizedPattern("MM-dd-yyyy'T'HH:mm:ss");
+				Date dto = sdf.parse(meeting.getEndDate());
 				sdf.applyLocalizedPattern("'à' HH:mm");
-				String sto = sdf.format(dfrom);
+				sto = sdf.format(dto);
+
+				System.out.println("LA DATE :" + sfrom + sto + "|");
 				date_tv.setText(sfrom + sto);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant(), convertView, null, 1);
-//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
-//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
 
-			TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
-			final String orders = new String();
-			//				for (int i = 0; meeting.getOrder().get(i); ++i) {
-			//					if (i != 0)
-			//						orders += ", ";
-			//					orders += meeting.getOrder().get(i).toString();
-			//				}
-			order_tv.setText(orders);
+				System.out.println(meeting.getRestaurant_id());
 
-			LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
-			List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+//				Restaurant.getById(act.getApplicationContext(), meeting.getRestaurant_id(), convertView, null, 1);
+
+				
+
+				//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
+				//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
+
+				TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
+				final String orders = new String();
+				//				for (int i = 0; meeting.getOrder().get(i); ++i) {
+				//					if (i != 0)
+				//						orders += ", ";
+				//					orders += meeting.getOrder().get(i).toString();
+				//				}
+				order_tv.setText(orders);
+
+				LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
+
+				List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				for (int i = 0; i < participants.size(); ++i) {
+					System.out.println("AFFICHE PARTICIPANT:" + participants.get(i).getUserName() + "|");
+					View view = inflater.inflate(R.layout.list_meeting_row_item_participant_item, null);
+					TextView name_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_name_tv);
+					name_tv.setText(participants.get(i).getUserName());
+					//			tv.setTextColor(Color.BLACK);
+					TextView status_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_status_tv);
+					status_tv.setText("");
+					l.addView(view);
+				}
 			}
-			for (int i = 0; i < participants.size(); ++i) {
-				View view = inflater.inflate(R.layout.list_meeting_row_item_participant_item, null);
-				TextView name_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_name_tv);
-				name_tv.setText(participants.get(i).getUserName());
-				//			tv.setTextColor(Color.BLACK);
-				TextView status_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_status_tv);
-				status_tv.setText("");
-				l.addView(view);
-			}
+
+			return convertView;
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return convertView;
 		}
-
-		return convertView;
 	}
 
 	@Override
@@ -195,24 +210,24 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			final EditText name_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_name_et);
 			name_et.setText(meeting.getName());
 
-			Restaurant.getById(act, meeting.getId_restaurant(), dialog, meeting, 0);
-//			Restaurant.getAllRestaurant(act.getApplicationContext());
-//			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
-//			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
-//			final List<Restaurant> restaurants = Restaurant.getAllRestaurant(act.getApplicationContext());
-//			List<String> autocstr = new ArrayList<String>();
-//			for (int i = 0; i < restaurants.size(); ++i)
-//				autocstr.add(restaurants.get(i).getName());
-//			ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
-//			actv.setAdapter(adapter);
-//			actv.setOnItemClickListener(new OnItemClickListener() {
-//
-//				@Override
-//				public void onItemClick(AdapterView<?> parent, View view,
-//						int position, long rowId) {
-//					meeting.setId_restaurant(restaurants.get(position).getId());
-//				}
-//			});
+			Restaurant.getById(act, meeting.getRestaurant_id(), dialog, meeting, 0);
+			//			Restaurant.getAllRestaurant(act.getApplicationContext());
+			//			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+			//			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
+			//			final List<Restaurant> restaurants = Restaurant.getAllRestaurant(act.getApplicationContext());
+			//			List<String> autocstr = new ArrayList<String>();
+			//			for (int i = 0; i < restaurants.size(); ++i)
+			//				autocstr.add(restaurants.get(i).getName());
+			//			ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
+			//			actv.setAdapter(adapter);
+			//			actv.setOnItemClickListener(new OnItemClickListener() {
+			//
+			//				@Override
+			//				public void onItemClick(AdapterView<?> parent, View view,
+			//						int position, long rowId) {
+			//					meeting.setId_restaurant(restaurants.get(position).getId());
+			//				}
+			//			});
 
 			final DatePicker from_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_dp);
 			from_dp.setCalendarViewShown(false);

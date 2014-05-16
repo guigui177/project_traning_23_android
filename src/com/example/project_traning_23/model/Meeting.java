@@ -1,5 +1,6 @@
 package com.example.project_traning_23.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -29,18 +31,7 @@ public class Meeting extends Project_traning_Model{
 	private String restaurant_id;
 	private String owner_id;
 
-	public Meeting(String id, String startDate, String endDate, String address,
-			String name, String status, String owner_id, String id_restaurant) {
-		super();
-		this.id = id;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.address = address;
-		this.name = name;
-		this.status = status;
-		this.owner_id = owner_id;
-		this.restaurant_id = id_restaurant;
-	}
+	
 
 	public String getId() {
 		return id;
@@ -90,20 +81,20 @@ public class Meeting extends Project_traning_Model{
 		this.address = address;
 	}
 
-	public String getId_restaurant() {
-		return restaurant_id;
-	}
-
-	public void setId_restaurant(String id_restaurant) {
-		this.restaurant_id = id_restaurant;
-	}
-
 	public String getOwner_id() {
 		return owner_id;
 	}
 
 	public void setOwner_id(String owner_id) {
 		this.owner_id = owner_id;
+	}
+
+	public String getRestaurant_id() {
+		return restaurant_id;
+	}
+
+	public void setRestaurant_id(String restaurant_id) {
+		this.restaurant_id = restaurant_id;
 	}
 
 	public static void getAllMeetings(final Activity act, final int choice, final Object o) {
@@ -117,9 +108,12 @@ public class Meeting extends Project_traning_Model{
 				Project_traning_AdaptResponse<Meeting> test = new Project_traning_AdaptResponse<Meeting>();
 				rep = test.adaptToList(response, Meeting.class);
 				Meeting m;
+				System.out.println("list meetings" + rep);
 				for(int i = 0; i < rep.size(); i++)
 				{
-					m = rep.get(i);					
+					m = rep.get(i);	
+					Log.d("meeting", "one" + m.restaurant_id);
+					System.out.println("ID MEETING:" + m.restaurant_id + "|");
 					meetings.add(m);
 				}
 				if (choice == 0) {
@@ -206,7 +200,7 @@ public class Meeting extends Project_traning_Model{
 
 	public void createMeeting(final Activity act, final List<Object> o) {
 		try {
-			JSONObject json = new JSONObject();
+			JSONObject json = new JSONObject();	
 			json.put("address", this.address);
 			json.put("startDate", this.startDate);
 			json.put("endDate", this.endDate);

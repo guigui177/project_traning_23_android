@@ -142,13 +142,14 @@ public class Restaurant extends Project_traning_Model{
 				}
 				if (choice == 1) {
 					TextView restaurant_name = (TextView) ((View) d).findViewById(R.id.list_meeting_row_item_restaurant_tv);
+					System.out.println("restaurant :" + restaurant.getName() + "|");
 					restaurant_name.setText(restaurant.getName());
 				}
 			}
 			@Override
 			public void onFailure(Throwable error)
 			{
-				System.out.println(error.getLocalizedMessage());
+			//	System.out.println(error.getLocalizedMessage());
 				Toast.makeText(context, "Restaurant getById : failed " , Toast.LENGTH_LONG).show();
 			}
 		});	
@@ -183,7 +184,13 @@ public class Restaurant extends Project_traning_Model{
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view,
 								int position, long rowId) {
-							meeting.setId_restaurant(restaurants.get(position).getId());
+							String r_name = ((TextView)view).getText().toString();
+							for (int i = 0; i < restaurants.size(); ++i) {
+								if (restaurants.get(i).getName().contentEquals(r_name))
+									meeting.setRestaurant_id(restaurants.get(i).getId());
+								System.out.println("ID RESTAU:" + restaurants.get(i).getId() + "|NAME RESTAU:" + restaurants.get(i).getName() + "|");
+							}
+							System.out.println("MEETING RESTAU ID:" + meeting.getRestaurant_id() + "|");
 						}
 					});
 				}
@@ -202,7 +209,7 @@ public class Restaurant extends Project_traning_Model{
 						@Override
 						public void onItemClick(AdapterView<?> parent, View view,
 								int position, long rowId) {
-							meeting.setId_restaurant(restaurants.get(position).getId());
+							meeting.setRestaurant_id(restaurants.get(position).getId());
 						}
 					});
 				}
