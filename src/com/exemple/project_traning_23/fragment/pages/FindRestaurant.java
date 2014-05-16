@@ -104,7 +104,6 @@ public class FindRestaurant extends AFragment implements OnItemClickListener {
 		dialog.setTitle("Sélection Item");
 		dialog.setContentView(R.layout.fragment_listresto_expanded);
 
-
 		TextView resto_name = (TextView) dialog.findViewById(R.id.fragment_listrestoexpande_text_name);
 		TextView resto_type = (TextView) dialog.findViewById(R.id.fragment_listrestoexpande_text_type);
 		TextView resto_deff = (TextView) dialog.findViewById(R.id.fragment_listrestoexpande_text_deff);

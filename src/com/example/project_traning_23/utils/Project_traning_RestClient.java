@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 public class Project_traning_RestClient {
-	private static String BASE_URL = "http://192.168.0.103:3000";
+	private static String BASE_URL = "http://192.168.173.1:3000";
 	private static String API_URL = null;
 
 	private final static AsyncHttpClient client = new AsyncHttpClient();
