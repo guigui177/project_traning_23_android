@@ -22,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -41,10 +43,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 public class CreateMeeting extends AFragment implements OnClickListener {
 
 	private Dialog dialog;
-	private Meeting meeting = new Meeting(null, null, null, null, null, null, null, null);
+	private Meeting meeting = new Meeting();
 	private List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
 	private List<String> new_participants = new ArrayList<String>();
-
+	private final List<Good_user> friends = new ArrayList<Good_user>();
 
 	@Override
 	public int getMenuTitle() {
@@ -74,6 +76,10 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 		//			}
 		//		});
 
+		EditText address = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
+		EditText name = (EditText) view.findViewById(R.id.fragment_create_meeting_name_et);
+		address.setText("pas loin de la gare");
+		name.setText("nouveau");
 		Calendar today = Calendar.getInstance();
 		final DatePicker fromdp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
 		final TimePicker fromtp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_from_tp);
@@ -108,7 +114,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View v) {
+	public void onClick(final View v) {
 		switch (v.getId()) {
 		case R.id.fragment_create_meeting_add_participant_bt:
 			//appel du pop_up add_participant
@@ -116,8 +122,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			dialog.setTitle("Choose Participants");
 			dialog.setContentView(R.layout.dialog_meeting_manage_participant);
 
-			final List<Good_user> friends = new ArrayList<Good_user>();
-			Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/read", null, 
+			Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/friends/read", null, 
 					new AsyncHttpResponseHandler() {
 				@Override
 				public void onSuccess(String response) {
@@ -143,6 +148,19 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 
 							name_actv.setText(getItem(position).getUserName());
 							name_actv.setChecked(false);
+							name_actv.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+								@Override
+								public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+									if (isChecked == true)
+										new_participants.add(buttonView.getText().toString());
+									else
+										for (int i = 0; i < new_participants.size(); ++i) {
+											if (new_participants.get(i).contentEquals(buttonView.getText().toString()))
+												new_participants.remove(i);
+										}
+								}
+							});
 
 							List<Integer> l = new ArrayList<Integer>();
 							l.add(name_actv.getId());
@@ -173,7 +191,9 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			//envoi de la requete au server
 			//			Meeting new_meeting = new Meeting(id, name, date, participants, resto, status, notification);
 
-			View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_create_meeting, null);
+//			View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_create_meeting, null);
+			View view = (View) v.getParent();
+
 			EditText meeting_name = (EditText) view.findViewById(R.id.fragment_create_meeting_name_et);
 			DatePicker from_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
 			TimePicker from_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_from_tp);
@@ -182,28 +202,36 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			EditText location = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
 
 			meeting.setAddress(location.getText().toString());
+			System.out.println("Par ici ma jolie " + meeting.getAddress() + "|mais pas la");
 			meeting.setName(meeting_name.getText().toString());
+			System.out.println("My name is " + meeting.getName() + "|jusque la");
 			Date d = new Date();
 			d.setDate(to_dp.getDayOfMonth());
 			d.setMonth(to_dp.getMonth());
-			d.setYear(to_dp.getYear());
+			d.setYear(to_dp.getYear()-1900);
 			d.setHours(to_tp.getCurrentHour());
 			d.setMinutes(to_tp.getCurrentMinute());
-			SimpleDateFormat s = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+			System.out.println(to_dp.getYear());
+			SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			System.out.println(s.format(d));
 			meeting.setEndDate(s.format(d));
 			d.setDate(from_dp.getDayOfMonth());
 			d.setMonth(from_dp.getMonth());
-			d.setYear(from_dp.getYear());
+			d.setYear(from_dp.getYear()-1900);
 			d.setHours(from_tp.getCurrentHour());
 			d.setMinutes(from_tp.getCurrentMinute());
 			meeting.setStartDate(s.format(d));
 
 			//			RECUPERER ID USER POUR CREATION DU MEETING
 			//			ET POUR LA LISTE DES PARTICIPANTS DU MEETING
-			List<Object> o = new ArrayList<Object>();
-			o.add(meeting);
-			o.add(new_participants);
-			Good_user.getUser(getActivity(), meeting, o);
+			if (meeting.getName().isEmpty() == false) {
+				List<Object> o = new ArrayList<Object>();
+				o.add(meeting);
+				o.add(new_participants);
+				Good_user.getUser(getActivity(), meeting, o);
+			}
+			else
+				System.out.println("pas de nom de meeting");
 			//
 			//			meeting.setOwner_id(String.valueOf(Good_user.getUser(getActivity().getApplicationContext(), meeting).getId()));
 			//			meeting.createMeeting(getActivity(), new_participants);
@@ -229,25 +257,45 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			ft.commit();
 			break;
 		case R.id.dialog_meeting_manage_participant_validate_bt:
-			List<Good_user> participants = meeting.getAllParticipants(getActivity().getApplicationContext());
-			try {
-				Toast.makeText(getActivity().getApplicationContext(), "sleep 1", Toast.LENGTH_SHORT).show();
-				Thread.sleep(1000);
-				Toast.makeText(getActivity().getApplicationContext(), "sleep 2", Toast.LENGTH_SHORT).show();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			for (int i = 0; i < actv_id.size(); ++i) {
-				CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
-				if (cb.isChecked()) {
-					for (int j = 0; j < participants.size(); ++j) {
-						if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
-							break;
-						else if (j == participants.size())
-							this.new_participants.add(String.valueOf(actv_id.get(i).get(1)));
-					}
-				}
-			}
+			//			List<Good_user> participants = meeting.getAllParticipants(getActivity().getApplicationContext());
+			//			try {
+			//				Toast.makeText(getActivity().getApplicationContext(), "sleep 1", Toast.LENGTH_SHORT).show();
+			//				Thread.sleep(1000);
+			//				Toast.makeText(getActivity().getApplicationContext(), "sleep 2", Toast.LENGTH_SHORT).show();
+			//			} catch (InterruptedException e) {
+			//				e.printStackTrace();
+			//			}
+			//			final List<Good_user> friends2 = new ArrayList<Good_user>();
+			//			Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "users/friends/read", null, 
+			//					new AsyncHttpResponseHandler() {
+			//				@Override
+			//				public void onSuccess(String response) {
+			//					List<Good_user> friend_list = new ArrayList<Good_user>();
+			//					System.out.println(response);
+			//					Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
+			//					friend_list = test.adaptToList(response, Good_user.class);
+			//					for(int i = 0; i < friend_list.size(); i++)
+			//						friends2.add(friend_list.get(i));
+			//					
+			//					for (int i = 0; i < actv_id.size(); ++i) {
+			//						CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
+			//						if (cb.isChecked()) {
+			//							for (int j = 0; j < friends2.size(); ++j) {
+			//								if (cb.getText().toString().contentEquals(friends2.get(j).getUserName()))
+			//									break;
+			//								else if (j == friends2.size())
+			//									new_participants.add(String.valueOf(actv_id.get(i).get(1)));
+			//							}
+			//						}
+			//					}
+			//				}
+			//
+			//				@Override
+			//				public void onFailure(Throwable error) {
+			//					System.out.println(error.getLocalizedMessage());
+			//					Toast.makeText(getActivity().getApplicationContext(), "requette list users faild " , Toast.LENGTH_LONG).show();
+			//				}
+			//			});
 			dialog.cancel();
 			break;
 		default:

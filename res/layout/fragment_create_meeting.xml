@@ -23,7 +23,8 @@
             android:ems="10"
             android:lines="1"
             android:maxLines="1"
-            android:singleLine="true" >
+            android:singleLine="true"
+            android:text="test name" >
 
             <requestFocus />
         </EditText>
