@@ -61,66 +61,108 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		try {
 			final Meeting meeting = (Meeting) getChild(groupPosition, childPosition);
-			if (convertView == null) {
+			if (convertView == null)
 				convertView = inflater.inflate(R.layout.list_meeting_row_item, null);
-				TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
-				String sfrom = null, sto = null;
-				SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy'T'HH:mm:ss");
+			TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
+			String sfrom = null, sto = null;
+			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy'T'HH:mm:ss");
 
-				Date dfrom = sdf.parse(meeting.getStartDate());
-				sdf.applyLocalizedPattern("'Le' dd/MM 'de' HH:mm ");
-				sfrom = sdf.format(dfrom);
+			Date dfrom = sdf.parse(meeting.getStartDate());
+			sdf.applyLocalizedPattern("'Le' dd/MM 'de' HH:mm ");
+			sfrom = sdf.format(dfrom);
 
-				sdf.applyLocalizedPattern("MM-dd-yyyy'T'HH:mm:ss");
-				Date dto = sdf.parse(meeting.getEndDate());
-				sdf.applyLocalizedPattern("'à' HH:mm");
-				sto = sdf.format(dto);
+			sdf.applyLocalizedPattern("MM-dd-yyyy'T'HH:mm:ss");
+			Date dto = sdf.parse(meeting.getEndDate());
+			sdf.applyLocalizedPattern("'à' HH:mm");
+			sto = sdf.format(dto);
 
-				System.out.println("LA DATE :" + sfrom + sto + "|");
-				date_tv.setText(sfrom + sto);
+			System.out.println("LA DATE :" + sfrom + sto + "|");
+			date_tv.setText(sfrom + sto);
 
-				System.out.println(meeting.getRestaurant_id());
+			System.out.println(meeting.getRestaurant_id());
 
-//				Restaurant.getById(act.getApplicationContext(), meeting.getRestaurant_id(), convertView, null, 1);
+			//				Restaurant.getById(act.getApplicationContext(), meeting.getRestaurant_id(), convertView, null, 1);
+			//				final View v_for_req = convertView.findViewById(convertView.getId());
+			//				Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "restaurants/read/"+ meeting.getRestaurant_id(), null, 
+			//						new AsyncHttpResponseHandler() {
+			//					@Override
+			//					public void onSuccess(String response) {
+			//						Restaurant rep;
+			//						System.out.println(response);
+			//						Project_traning_AdaptResponse<Restaurant> test = new Project_traning_AdaptResponse<Restaurant>();
+			//						rep = test.adaptToModel(response, Restaurant.class);
+			//						meeting.setRestaurant_id(rep.getId());
+			//						
+			TextView name_r = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
+			name_r.setText(meeting.getRestaurant().getName());
+			//					}
+			//					@Override
+			//					public void onFailure(Throwable error)
+			//					{
+			//						System.out.println("Restaurant getById : failed ");
+			//						Toast.makeText(act.getApplicationContext(), "Restaurant getById : failed " , Toast.LENGTH_LONG).show();
+			//					}
+			//				});	
 
-				
 
-				//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
-				//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
+			//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
+			//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
 
-				TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
-				final String orders = new String();
-				//				for (int i = 0; meeting.getOrder().get(i); ++i) {
-				//					if (i != 0)
-				//						orders += ", ";
-				//					orders += meeting.getOrder().get(i).toString();
-				//				}
-				order_tv.setText(orders);
+			TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
+			final String orders = new String();
+			//				for (int i = 0; meeting.getOrder().get(i); ++i) {
+			//					if (i != 0)
+			//						orders += ", ";
+			//					orders += meeting.getOrder().get(i).toString();
+			//				}
+			order_tv.setText(orders);
 
-				LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
+			final LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
+			l.removeAllViews();
 
-				List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			//				List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
+
+			Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "meetings/"+ meeting.getId() +"/members/read", null, 
+					new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String response) {
+					List<Good_user> participants = new ArrayList<Good_user>();
+					List<Good_user> rep = new ArrayList<Good_user>();
+					System.out.println(response);
+					Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
+					rep = test.adaptToList(response, Good_user.class);
+					Good_user gu;
+					for(int i = 0; i < rep.size(); i++)
+					{
+						gu = rep.get(i);					
+						participants.add(gu);
+					}
+
+					for (int i = 0; i < participants.size(); ++i) {
+						System.out.println("AFFICHE PARTICIPANT:" + participants.get(i).getUserName() + "|");
+						View view = inflater.inflate(R.layout.list_meeting_row_item_participant_item, null);
+						TextView name_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_name_tv);
+						name_tv.setText(participants.get(i).getUserName());
+						//			tv.setTextColor(Color.BLACK);
+						TextView status_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_status_tv);
+						status_tv.setText("");
+						l.addView(view);
+					}
+
 				}
-				
-				for (int i = 0; i < participants.size(); ++i) {
-					System.out.println("AFFICHE PARTICIPANT:" + participants.get(i).getUserName() + "|");
-					View view = inflater.inflate(R.layout.list_meeting_row_item_participant_item, null);
-					TextView name_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_name_tv);
-					name_tv.setText(participants.get(i).getUserName());
-					//			tv.setTextColor(Color.BLACK);
-					TextView status_tv = (TextView) view.findViewById(R.id.list_meeting_row_item_participant_item_status_tv);
-					status_tv.setText("");
-					l.addView(view);
+				@Override
+				public void onFailure(Throwable error)
+				{
+					System.out.println(error.getLocalizedMessage());
+					Toast.makeText(act.getApplicationContext(), "getAllParticipants : failed " , Toast.LENGTH_LONG).show();
 				}
-			}
+			});	
+
 
 			return convertView;
 
 		} catch (ParseException e) {
+			System.out.println("NIKé");
 			e.printStackTrace();
 			return convertView;
 		}
@@ -210,8 +252,53 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			final EditText name_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_name_et);
 			name_et.setText(meeting.getName());
 
-			Restaurant.getById(act, meeting.getRestaurant_id(), dialog, meeting, 0);
+			//			Restaurant.getById(act, meeting.getRestaurant_id(), dialog, meeting, 0);
 			//			Restaurant.getAllRestaurant(act.getApplicationContext());
+			Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "restaurants/read", null, 
+					new AsyncHttpResponseHandler() {
+				@Override
+				public void onSuccess(String response) {
+					final List<Restaurant> restaurants = new ArrayList<Restaurant>();
+					List<Restaurant> rep = new ArrayList<Restaurant>();
+					System.out.println(response);
+					Project_traning_AdaptResponse<Restaurant> test = new Project_traning_AdaptResponse<Restaurant>();
+					rep = test.adaptToList(response, Restaurant.class);
+					Restaurant r;
+					for(int i = 0; i < rep.size(); i++)
+					{
+						r = rep.get(i);					
+						restaurants.add(r);
+					}
+					AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+					actv.setText(meeting.getRestaurant().getName());
+
+					List<String> autocstr = new ArrayList<String>();
+					for (int i = 0; i < restaurants.size(); ++i)
+						autocstr.add(restaurants.get(i).getName());
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
+					actv.setAdapter(adapter);
+					actv.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> parent, View view,
+								int position, long rowId) {
+							String r_name = ((TextView)view).getText().toString();
+							for (int i = 0; i < restaurants.size(); ++i) {
+								if (restaurants.get(i).getName().contentEquals(r_name))
+									meeting.setRestaurant_id(restaurants.get(i).getId());
+							}
+							System.out.println(meeting.getRestaurant_id());
+						}
+					});
+				}
+				@Override
+				public void onFailure(Throwable error)
+				{
+					System.out.println(error.getLocalizedMessage());
+					Toast.makeText(act.getApplicationContext(), "getAllRestaurant : failed " , Toast.LENGTH_LONG).show();
+				}
+			});
+			//
 			//			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
 			//			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
 			//			final List<Restaurant> restaurants = Restaurant.getAllRestaurant(act.getApplicationContext());
@@ -232,10 +319,12 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			final DatePicker from_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_dp);
 			from_dp.setCalendarViewShown(false);
 
-			SimpleDateFormat s = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+			SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			Date d;
 			d = s.parse(meeting.getStartDate());
-			from_dp.updateDate(d.getYear() + 1900, d.getMonth() - 1, d.getDate());
+			System.out.println(meeting.getStartDate());
+
+			from_dp.updateDate(d.getYear() + 1900, d.getMonth(), d.getDate());
 
 			final TimePicker from_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_tp);
 			from_tp.setCurrentHour(d.getHours());
@@ -245,7 +334,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			to_dp.setCalendarViewShown(false);
 
 			d = s.parse(meeting.getEndDate());
-			to_dp.updateDate(d.getYear() + 1900, d.getMonth() - 1, d.getDate());
+			to_dp.updateDate(d.getYear() + 1900, d.getMonth(), d.getDate());
 
 			final TimePicker to_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_to_tp);
 			to_tp.setCurrentHour(d.getHours());
@@ -264,19 +353,20 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 					Date d = new Date();
 					d.setDate(to_dp.getDayOfMonth());
 					d.setMonth(to_dp.getMonth());
-					d.setYear(to_dp.getYear());
-					d.setHours(to_tp.getCurrentHour());
+					d.setYear(to_dp.getYear() - 1900);
+					d.setHours(to_tp.getCurrentHour() + 2);
 					d.setMinutes(to_tp.getCurrentMinute());
 					SimpleDateFormat s = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 					meeting.setEndDate(s.format(d));
 					d.setDate(from_dp.getDayOfMonth());
 					d.setMonth(from_dp.getMonth());
-					d.setYear(from_dp.getYear());
-					d.setHours(from_tp.getCurrentHour());
+					d.setYear(from_dp.getYear() - 1900);
+					d.setHours(from_tp.getCurrentHour() + 2);
 					d.setMinutes(from_tp.getCurrentMinute());
 					meeting.setStartDate(s.format(d));
 
 					meeting.setName(name_et.getText().toString());
+					System.out.println("Test 2:" + meeting.getRestaurant_id());
 					meeting.updateMeeting(act.getApplicationContext());
 					dialog.cancel();
 				}

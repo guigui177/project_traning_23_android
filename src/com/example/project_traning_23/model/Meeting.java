@@ -30,6 +30,7 @@ public class Meeting extends Project_traning_Model{
 	private String status;
 	private String restaurant_id;
 	private String owner_id;
+	public Restaurant restaurant;
 
 	
 
@@ -95,6 +96,14 @@ public class Meeting extends Project_traning_Model{
 
 	public void setRestaurant_id(String restaurant_id) {
 		this.restaurant_id = restaurant_id;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
 	}
 
 	public static void getAllMeetings(final Activity act, final int choice, final Object o) {
@@ -179,6 +188,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("endDate", this.endDate);
 			json.put("restaurant_id", this.restaurant_id);
 			json.put("name", this.name);
+			System.out.println("meeting ID:" + this.id);
 
 			Project_traning_RestClient.putWithBody(context, "meetings/" + this.id + "/update", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
