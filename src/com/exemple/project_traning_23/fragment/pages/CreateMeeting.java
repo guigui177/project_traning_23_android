@@ -44,7 +44,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 
 	private Dialog dialog;
 	private Meeting meeting = new Meeting();
-	private List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
+//	private List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
 	private List<String> new_participants = new ArrayList<String>();
 	private final List<Good_user> friends = new ArrayList<Good_user>();
 
@@ -156,16 +156,16 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 										new_participants.add(buttonView.getText().toString());
 									else
 										for (int i = 0; i < new_participants.size(); ++i) {
-											if (new_participants.get(i).contentEquals(buttonView.getText().toString()))
-												new_participants.remove(i);
+											if (new_participants.get(i).compareTo(buttonView.getText().toString()) == 0)
+												new_participants.remove(i--);
 										}
 								}
 							});
-
-							List<Integer> l = new ArrayList<Integer>();
-							l.add(name_actv.getId());
-							l.add(getItem(position).getId());
-							actv_id.add(l);
+//
+//							List<Integer> l = new ArrayList<Integer>();
+//							l.add(name_actv.getId());
+//							l.add(getItem(position).getId());
+//							actv_id.add(l);
 							System.out.println("okkkkkkkkkkkkkkkkkkkkkkkkkkkk");
 							Toast.makeText(getActivity().getApplicationContext(), "sleep 5", Toast.LENGTH_SHORT).show();
 
@@ -228,6 +228,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 				List<Object> o = new ArrayList<Object>();
 				o.add(meeting);
 				o.add(new_participants);
+				o.add(friends);
 				Good_user.getUser(getActivity(), meeting, o);
 			}
 			else

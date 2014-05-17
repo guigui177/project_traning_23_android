@@ -131,16 +131,24 @@ public class Meeting extends Project_traning_Model{
 					expla.setAdapter(elafm);
 				}
 				else if (choice == 1) {
+					System.out.println("recup id meeting!");
 					Meeting meeting = ((Meeting)((List<Object>) o).get(0));
 					List<String> new_participants = ((List<String>)((List<Object>) o).get(1));
+					List<Good_user> friends = ((List<Good_user>)((List<Object>) o).get(2));
 					for (int i = 0; i < meetings.size(); ++i)
 						if (meeting.getName().equalsIgnoreCase(meetings.get(i).getName())) {
 							meeting = meetings.get(i);
 							break;
 						}
 					
-					for (int i = 0; i < new_participants.size() && meeting == null; ++i) {
-						meeting.addParticipantToMeeting(act, new_participants.get(i));
+					for (int i = 0; i < new_participants.size() && meeting != null; ++i) {
+						for (int j = 0; i < friends.size(); ++j) {
+							if (friends.get(j).getUserName().compareTo(new_participants.get(i)) == 0) {
+								meeting.addParticipantToMeeting(act, String.valueOf(friends.get(j).getId()));
+								System.out.println("add participant:" + new_participants.get(i));
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -188,7 +196,7 @@ public class Meeting extends Project_traning_Model{
 			json.put("endDate", this.endDate);
 			json.put("restaurant_id", this.restaurant_id);
 			json.put("name", this.name);
-			System.out.println("meeting ID:" + this.id);
+			System.out.println("req resto ID:" + this.restaurant_id);
 
 			Project_traning_RestClient.putWithBody(context, "meetings/" + this.id + "/update", json.toString(), false, 
 					new AsyncHttpResponseHandler() {
@@ -243,13 +251,33 @@ public class Meeting extends Project_traning_Model{
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
-				System.out.println(response);
+				if (response != null)
+					System.out.println(response);
 				Toast.makeText(context, "the friend is add!", Toast.LENGTH_LONG).show();
 			}
 			public void onFailure(Throwable error)
 			{
-				System.out.println(error.getLocalizedMessage());
+				if (error != null)
+					System.out.println(error.getLocalizedMessage());
 				Toast.makeText(context, "addParticipantToMeeting : faild " , Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+
+	public void deleteParticipantToMeeting(final Context context,
+			String p_id) {
+		JSONObject json = new JSONObject();
+		Project_traning_RestClient.putWithBody(context, "meetings/" + this.getId() + "/members/remove/" + p_id, json.toString(), false, 
+				new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				System.out.println(response);
+				Toast.makeText(context, "the friend is delete!", Toast.LENGTH_LONG).show();
+			}
+			public void onFailure(Throwable error)
+			{
+				System.out.println(error.getLocalizedMessage());
+				Toast.makeText(context, "deleteParticipantToMeeting : faild " , Toast.LENGTH_LONG).show();
 			}
 		});
 	}

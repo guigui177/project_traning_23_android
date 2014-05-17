@@ -6,40 +6,26 @@
 
     <TextView
         android:id="@+id/list_meeting_group_item_name_meeting_tv"
-        android:layout_column="0"
         android:layout_columnSpan="1"
         android:layout_gravity="left|top"
         android:layout_margin="5dp"
-        android:layout_row="0"
         android:layout_rowSpan="1"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:text="TextView" />
 
     <Button
         android:id="@+id/list_meeting_group_item_validate_bt"
-        android:layout_column="1"
         android:layout_columnSpan="1"
-        android:layout_gravity="left"
-        android:layout_row="0"
+        android:layout_gravity="center_horizontal"
         android:layout_rowSpan="2"
         android:text="M" />
 
     <Button
         android:id="@+id/list_meeting_group_item_participant_bt"
-        android:layout_column="2"
         android:layout_columnSpan="1"
-        android:layout_gravity="left"
-        android:layout_row="0"
+        android:layout_gravity="center_horizontal"
         android:layout_rowSpan="2"
         android:text="P" />
-
-    <Button
-        android:id="@+id/list_meeting_group_item_order_bt"
-        android:layout_column="3"
-        android:layout_gravity="left"
-        android:layout_row="0"
-        android:layout_rowSpan="2"
-        android:text="O" />
 
     <TextView
         android:id="@+id/list_meeting_group_item_status_tv"

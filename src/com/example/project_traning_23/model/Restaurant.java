@@ -197,21 +197,21 @@ public class Restaurant extends Project_traning_Model{
 				else if (choice == 1) {
 					Dialog d = (Dialog) ((List<Object>)o).get(0);
 					String resto_name = (String) ((List<Object>)o).get(1);
-					AutoCompleteTextView actv = (AutoCompleteTextView) d.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
-					actv.setText(resto_name);
-					List<String> autocstr = new ArrayList<String>();
-					for (int i = 0; i < restaurants.size(); ++i)
-						autocstr.add(restaurants.get(i).getName());
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_dropdown_item, autocstr);
-					actv.setAdapter(adapter);
-					actv.setOnItemClickListener(new OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view,
-								int position, long rowId) {
-							meeting.setRestaurant_id(restaurants.get(position).getId());
-						}
-					});
+//					AutoCompleteTextView actv = (AutoCompleteTextView) d.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+//					actv.setText(resto_name);
+//					List<String> autocstr = new ArrayList<String>();
+//					for (int i = 0; i < restaurants.size(); ++i)
+//						autocstr.add(restaurants.get(i).getName());
+//					ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.list_dropdown_item, autocstr);
+//					actv.setAdapter(adapter);
+//					actv.setOnItemClickListener(new OnItemClickListener() {
+//
+//						@Override
+//						public void onItemClick(AdapterView<?> parent, View view,
+//								int position, long rowId) {
+//							meeting.setRestaurant_id(restaurants.get(position).getId());
+//						}
+//					});
 				}
 			}
 			@Override

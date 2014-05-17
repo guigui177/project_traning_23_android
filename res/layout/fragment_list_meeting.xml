@@ -5,12 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/fragment_list_meeting_add_b"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:text="Add" />
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/fragment_list_meeting_add_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add" />
+
+        <Button
+            android:id="@+id/fragment_list_meeting_delete_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
+    </LinearLayout>
     
     <ExpandableListView
         android:id="@+id/fragment_list_meeting_Explv"

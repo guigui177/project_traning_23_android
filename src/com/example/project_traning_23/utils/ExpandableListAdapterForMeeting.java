@@ -25,6 +25,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -63,16 +65,20 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			final Meeting meeting = (Meeting) getChild(groupPosition, childPosition);
 			if (convertView == null)
 				convertView = inflater.inflate(R.layout.list_meeting_row_item, null);
+			TextView address = (TextView) convertView.findViewById(R.id.list_meeting_row_item_address_tv);
+			address.setText(meeting.getAddress());
 			TextView date_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_date_time_tv);
 			String sfrom = null, sto = null;
 			SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy'T'HH:mm:ss");
 
 			Date dfrom = sdf.parse(meeting.getStartDate());
+			dfrom.setHours(dfrom.getHours() + 2);
 			sdf.applyLocalizedPattern("'Le' dd/MM 'de' HH:mm ");
 			sfrom = sdf.format(dfrom);
 
 			sdf.applyLocalizedPattern("MM-dd-yyyy'T'HH:mm:ss");
 			Date dto = sdf.parse(meeting.getEndDate());
+			dto.setHours(dto.getHours() + 2);
 			sdf.applyLocalizedPattern("'à' HH:mm");
 			sto = sdf.format(dto);
 
@@ -108,14 +114,6 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			//			TextView restaurant_name = (TextView) convertView.findViewById(R.id.list_meeting_row_item_restaurant_tv);
 			//			restaurant_name.setText(Restaurant.getById(act.getApplicationContext(), meeting.getId_restaurant()).getName());
 
-			TextView order_tv = (TextView) convertView.findViewById(R.id.list_meeting_row_item_orders_tv);
-			final String orders = new String();
-			//				for (int i = 0; meeting.getOrder().get(i); ++i) {
-			//					if (i != 0)
-			//						orders += ", ";
-			//					orders += meeting.getOrder().get(i).toString();
-			//				}
-			order_tv.setText(orders);
 
 			final LinearLayout l = (LinearLayout) convertView.findViewById(R.id.list_meeting_row_item_participants_l);
 			l.removeAllViews();
@@ -204,10 +202,8 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 		Button modify_bt = (Button) convertView.findViewById(R.id.list_meeting_group_item_validate_bt);
 		Button participant_bt = (Button) convertView.findViewById(R.id.list_meeting_group_item_participant_bt);
-		Button order_bt = (Button) convertView.findViewById(R.id.list_meeting_group_item_order_bt);
 		modify_bt.setFocusable(false);
 		participant_bt.setFocusable(false);
-		order_bt.setFocusable(false);
 		modify_bt.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -222,13 +218,6 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 				modifyParticipants(meeting);
 			}
 		});
-		//		order_bt.setOnClickListener(new OnClickListener() {
-		//			
-		//			@Override
-		//			public void onClick(View v) {
-		//				modifyOrders(meeting);
-		//			}
-		//		});
 
 		return convertView;
 	}
@@ -254,50 +243,52 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 
 			//			Restaurant.getById(act, meeting.getRestaurant_id(), dialog, meeting, 0);
 			//			Restaurant.getAllRestaurant(act.getApplicationContext());
-			Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "restaurants/read", null, 
-					new AsyncHttpResponseHandler() {
-				@Override
-				public void onSuccess(String response) {
-					final List<Restaurant> restaurants = new ArrayList<Restaurant>();
-					List<Restaurant> rep = new ArrayList<Restaurant>();
-					System.out.println(response);
-					Project_traning_AdaptResponse<Restaurant> test = new Project_traning_AdaptResponse<Restaurant>();
-					rep = test.adaptToList(response, Restaurant.class);
-					Restaurant r;
-					for(int i = 0; i < rep.size(); i++)
-					{
-						r = rep.get(i);					
-						restaurants.add(r);
-					}
-					AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
-					actv.setText(meeting.getRestaurant().getName());
-
-					List<String> autocstr = new ArrayList<String>();
-					for (int i = 0; i < restaurants.size(); ++i)
-						autocstr.add(restaurants.get(i).getName());
-					ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
-					actv.setAdapter(adapter);
-					actv.setOnItemClickListener(new OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view,
-								int position, long rowId) {
-							String r_name = ((TextView)view).getText().toString();
-							for (int i = 0; i < restaurants.size(); ++i) {
-								if (restaurants.get(i).getName().contentEquals(r_name))
-									meeting.setRestaurant_id(restaurants.get(i).getId());
-							}
-							System.out.println(meeting.getRestaurant_id());
-						}
-					});
-				}
-				@Override
-				public void onFailure(Throwable error)
-				{
-					System.out.println(error.getLocalizedMessage());
-					Toast.makeText(act.getApplicationContext(), "getAllRestaurant : failed " , Toast.LENGTH_LONG).show();
-				}
-			});
+//			Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "restaurants/read", null, 
+//					new AsyncHttpResponseHandler() {
+//				@Override
+//				public void onSuccess(String response) {
+//					final List<Restaurant> restaurants = new ArrayList<Restaurant>();
+//					List<Restaurant> rep = new ArrayList<Restaurant>();
+//					System.out.println(response);
+//					Project_traning_AdaptResponse<Restaurant> test = new Project_traning_AdaptResponse<Restaurant>();
+//					rep = test.adaptToList(response, Restaurant.class);
+//					Restaurant r;
+//					for(int i = 0; i < rep.size(); i++)
+//					{
+//						r = rep.get(i);					
+//						restaurants.add(r);
+//					}
+//					AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
+//					actv.setText(meeting.getRestaurant().getName());
+//
+//					List<String> autocstr = new ArrayList<String>();
+//					for (int i = 0; i < restaurants.size(); ++i)
+//						autocstr.add(restaurants.get(i).getName());
+//					ArrayAdapter<String> adapter = new ArrayAdapter<String>(act, R.layout.list_dropdown_item, autocstr);
+//					actv.setAdapter(adapter);
+//					actv.setOnItemClickListener(new OnItemClickListener() {
+//
+//						@Override
+//						public void onItemClick(AdapterView<?> parent, View view,
+//								int position, long rowId) {
+//							String r_name = ((TextView)view).getText().toString();
+//							for (int i = 0; i < restaurants.size(); ++i) {
+//								System.out.println("ID resto avant:" + meeting.getRestaurant_id());
+//								if (restaurants.get(i).getName().compareTo(r_name) == 0)
+//									meeting.setRestaurant_id(restaurants.get(i).getId());
+//								System.out.println("ID resto apres:" + meeting.getRestaurant_id());
+//							}
+//							System.out.println("ID dernier resto:" + meeting.getRestaurant_id());
+//						}
+//					});
+//				}
+//				@Override
+//				public void onFailure(Throwable error)
+//				{
+//					System.out.println(error.getLocalizedMessage());
+//					Toast.makeText(act.getApplicationContext(), "getAllRestaurant : failed " , Toast.LENGTH_LONG).show();
+//				}
+//			});
 			//
 			//			AutoCompleteTextView actv = (AutoCompleteTextView) dialog.findViewById(R.id.dialog_modification_meeting_restaurant_name_actv);
 			//			actv.setText(Restaurant.getById(act, meeting.getId_restaurant()).getName());
@@ -327,7 +318,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			from_dp.updateDate(d.getYear() + 1900, d.getMonth(), d.getDate());
 
 			final TimePicker from_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_from_tp);
-			from_tp.setCurrentHour(d.getHours());
+			from_tp.setCurrentHour(d.getHours() + 2);
 			from_tp.setCurrentMinute(d.getMinutes());
 
 			final DatePicker to_dp = (DatePicker) dialog.findViewById(R.id.dialog_modification_meeting_to_dp);
@@ -337,7 +328,7 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 			to_dp.updateDate(d.getYear() + 1900, d.getMonth(), d.getDate());
 
 			final TimePicker to_tp = (TimePicker) dialog.findViewById(R.id.dialog_modification_meeting_to_tp);
-			to_tp.setCurrentHour(d.getHours());
+			to_tp.setCurrentHour(d.getHours() + 2);
 			to_tp.setCurrentMinute(d.getMinutes());
 
 			final EditText location_et = (EditText) dialog.findViewById(R.id.dialog_modification_meeting_location_et);
@@ -384,64 +375,115 @@ public class ExpandableListAdapterForMeeting extends BaseExpandableListAdapter{
 		dialog.setContentView(R.layout.dialog_meeting_manage_participant);
 
 		final List<Good_user> friends = new ArrayList<Good_user>();
-		Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "users/read", null, 
+		final List<Good_user> members = new ArrayList<Good_user>();
+		final List<String> new_members = new ArrayList<String>();
+		Project_traning_RestClient.getWithboddy(act.getApplicationContext(), "users/friends/read", null, 
 				new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(String response) {
-				final List<List<Integer>> actv_id = new ArrayList<List<Integer>>();
 				List<Good_user> friend_list = new ArrayList<Good_user>();
 				System.out.println(response);
 				Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
 				friend_list = test.adaptToList(response, Good_user.class);
 				for(int i = 0; i < friend_list.size(); i++)
 					friends.add(friend_list.get(i));
-				ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(act.getApplicationContext(), R.layout.dialog_meeting_manage_participant_item, friends) {
+
+				Project_traning_RestClient.getWithboddy(act, "meetings/" + meeting.getId() + "/members/read", null, new AsyncHttpResponseHandler() {
 
 					@Override
-					public View getView(int position, View convertView,
-							ViewGroup parent) {
-						if (convertView == null)
-							convertView = inflater.inflate(R.layout.dialog_meeting_manage_participant_item, null);
-						CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
-						name_actv.setText(getItem(position).getUserName());
-						name_actv.setChecked(false);
+					public void onSuccess(String response) {
+						List<Good_user> members_list = new ArrayList<Good_user>();
+						System.out.println(response);
+						Project_traning_AdaptResponse<Good_user> test = new Project_traning_AdaptResponse<Good_user>();
+						members_list = test.adaptToList(response, Good_user.class);
+						for(int i = 0; i < members_list.size(); i++)
+							members.add(members_list.get(i));
+						ArrayAdapter<Good_user> adapter = new ArrayAdapter<Good_user>(act.getApplicationContext(), R.layout.dialog_meeting_manage_participant_item, friends) {
 
-						List<Integer> l = new ArrayList<Integer>();
-						l.add(name_actv.getId());
-						l.add(getItem(position).getId());
-						actv_id.add(l);
+							@Override
+							public View getView(int position, View convertView,
+									ViewGroup parent) {
+								if (convertView == null)
+									convertView = inflater.inflate(R.layout.dialog_meeting_manage_participant_item, null);
+								CheckBox name_actv = (CheckBox) convertView.findViewById(R.id.dialog_meeting_manage_participant_item_name_check_cb);
+								name_actv.setText(getItem(position).getUserName());
+								name_actv.setChecked(false);
+								for (int i = 0; i < members.size(); ++i)
+									if (getItem(position).getUserName().compareTo(members.get(i).getUserName()) == 0) {
+										new_members.add(members.get(i).getUserName());
+										name_actv.setChecked(true);
+										System.out.println("init add in new members:" + members.get(i).getUserName());
+									}
+								name_actv.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-						return convertView;
+									@Override
+									public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+										if (isChecked == true) {
+											new_members.add(buttonView.getText().toString());
+											System.out.println("add in new members:" + buttonView.getText().toString());
+										}
+										else {
+											for (int x = 0; x < new_members.size(); ++x)
+												if (new_members.get(x).compareTo(buttonView.getText().toString()) == 0) {
+													new_members.remove(x);
+													--x;
+													System.out.println("delte in new members:" + buttonView.getText().toString());
+												}
+										}
+									}
+								});
+								return convertView;
+							}
+
+							@Override
+							public Good_user getItem(int position) {
+								return friends.get(position);
+							}
+						};
+						ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
+						friends_lv.setAdapter(adapter);
 					}
 
 					@Override
-					public Good_user getItem(int position) {
-						return friends.get(position);
+					public void onFailure(Throwable error) {
+						System.out.println(error.getLocalizedMessage());
+						Toast.makeText(act.getApplicationContext(), "meeting read members : requette list users/read " , Toast.LENGTH_LONG).show();
 					}
-				};
-				ListView friends_lv = (ListView) dialog.findViewById(R.id.dialog_meeting_manage_participant_friends_lv);
-				friends_lv.setAdapter(adapter);
+
+				});
 
 				Button validate_bt = (Button) dialog.findViewById(R.id.dialog_meeting_manage_participant_validate_bt);
 				validate_bt.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						//update and reload the data
-						List<Good_user> participants = meeting.getAllParticipants(act.getApplicationContext());
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						System.out.println("MEETING:" + meeting.getId());
+						for (int i = 0; i < new_members.size(); ++i) {
+							for (int j = 0; j < members.size(); ++j)
+								if (new_members.get(i).compareTo(members.get(j).getUserName()) == 0)
+									break;
+								else if ((j + 1) == members.size())
+									for (int x = 0; x < friends.size(); ++x)
+										if (friends.get(x).getUserName().compareTo(new_members.get(i)) == 0) {
+											System.out.println("add member" + String.valueOf(friends.get(x).getId()));
+											meeting.addParticipantToMeeting(act.getApplicationContext(), String.valueOf(friends.get(x).getId()));
+										}
+							System.out.println("new membre:" + new_members.get(i));
 						}
-						for (int i = 0; i < actv_id.size(); ++i) {
-							CheckBox cb = (CheckBox) v.findViewById(actv_id.get(i).get(0));
-							if (cb.isChecked()) {
-								for (int j = 0; j < participants.size(); ++j) {
-									if (cb.getText().toString().contentEquals(participants.get(j).getUserName()))
+
+
+						for (int i = 0; i < members.size(); ++i) {
+							if (String.valueOf(members.get(i).getId()).compareTo(meeting.getOwner_id()) != 0) {
+								System.out.println("ID member:" + String.valueOf(members.get(i).getId()) + "| Owner ID:" + meeting.getOwner_id());
+								int j = 0;
+								for (; j < new_members.size(); ++j) {
+									if (members.get(i).getUserName().compareTo(new_members.get(j)) == 0)
 										break;
-									else if (j == participants.size())
-										meeting.addParticipantToMeeting(act.getApplicationContext(), String.valueOf(actv_id.get(i).get(1)));
+								}
+								if (j == new_members.size()) {
+									System.out.println("supp member" + String.valueOf(members.get(i).getId()));
+									meeting.deleteParticipantToMeeting(act.getApplicationContext(), String.valueOf(members.get(i).getId()));
+									System.out.println("membre:" + members.get(i).getUserName());
 								}
 							}
 						}
