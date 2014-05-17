@@ -73,6 +73,7 @@
     <string name="menu_meeting_list_add_b">Create a meeting</string>
     <string name="create_meeting_title">Create Meeting</string>
     <string name="menu_add_meeting_validate_bt">ok</string>
-    
+     <!-- order layout -->
+    <string name="create_orderresto">chose a restaurant</string>
     
 </resources>
