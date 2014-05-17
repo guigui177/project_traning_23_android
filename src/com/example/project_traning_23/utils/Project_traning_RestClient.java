@@ -32,6 +32,17 @@ public class Project_traning_RestClient {
 		return client;
 	}
 
+	public static void deleteWithboddy(final Context context, final String url, final RequestParams resquestparams, final AsyncHttpResponseHandler responseHandler)
+	{
+		Header[] headers = {
+				new BasicHeader("userName", InternalStorage.getInstance(context).getUsername()),
+				new BasicHeader("password", InternalStorage.getInstance(context).getUserpass()),
+				new BasicHeader("Content-type", "application/json")
+		};	
+		android.util.Log.d("api", InternalStorage.getInstance(context).getUsername() + " , " + InternalStorage.getInstance(context).getUserpass());
+		client.delete(context, getAbsoluteUrl(context, url), headers, responseHandler);
+	}
+	
 	public static void getWithboddy(final Context context, final String url, final RequestParams resquestparams, final AsyncHttpResponseHandler responseHandler)
 	{
 		Header[] headers = {
