@@ -77,14 +77,14 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 		//		});
 
 		EditText address = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
-		EditText name = (EditText) view.findViewById(R.id.fragment_create_meeting_name_et);
+		EditText name = (EditText) view.findViewById(R.id.fragment_create_orderline_name_et);
 		address.setText("pas loin de la gare");
 		name.setText("nouveau");
 		Calendar today = Calendar.getInstance();
 		final DatePicker fromdp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
-		final TimePicker fromtp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_from_tp);
+		final TimePicker fromtp = (TimePicker) view.findViewById(R.id.fragment_create_orderline_from_tp);
 		final DatePicker todp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_to_dp);
-		final TimePicker totp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_to_tp);
+		final TimePicker totp = (TimePicker) view.findViewById(R.id.fragment_create_orderline_to_tp);
 		fromdp.setCalendarViewShown(false);
 		todp.setCalendarViewShown(false);
 		fromdp.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), null);
@@ -94,8 +94,8 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 		totp.setCurrentHour(today.get(Calendar.HOUR_OF_DAY) + 1);
 		totp.setCurrentMinute(today.get(Calendar.MINUTE));
 
-		final Button add_participant_b = (Button) view.findViewById(R.id.fragment_create_meeting_add_participant_bt);
-		final Button validate_b = (Button) view.findViewById(R.id.fragment_create_meeting_validate_bt);
+		final Button add_participant_b = (Button) view.findViewById(R.id.orderline);
+		final Button validate_b = (Button) view.findViewById(R.id.fragment_create_orderline_validate_bt);
 		add_participant_b.setOnClickListener(this);
 		validate_b.setOnClickListener(this);
 
@@ -116,7 +116,7 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 	@Override
 	public void onClick(final View v) {
 		switch (v.getId()) {
-		case R.id.fragment_create_meeting_add_participant_bt:
+		case R.id.orderline:
 			//appel du pop_up add_participant
 			this.dialog = new Dialog(getActivity());
 			dialog.setTitle("Choose Participants");
@@ -187,18 +187,18 @@ public class CreateMeeting extends AFragment implements OnClickListener {
 			validate_bt.setOnClickListener(this);
 			dialog.show();
 			break;
-		case R.id.fragment_create_meeting_validate_bt:
+		case R.id.fragment_create_orderline_validate_bt:
 			//envoi de la requete au server
 			//			Meeting new_meeting = new Meeting(id, name, date, participants, resto, status, notification);
 
 //			View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_create_meeting, null);
 			View view = (View) v.getParent();
 
-			EditText meeting_name = (EditText) view.findViewById(R.id.fragment_create_meeting_name_et);
+			EditText meeting_name = (EditText) view.findViewById(R.id.fragment_create_orderline_name_et);
 			DatePicker from_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_from_dp);
-			TimePicker from_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_from_tp);
+			TimePicker from_tp = (TimePicker) view.findViewById(R.id.fragment_create_orderline_from_tp);
 			DatePicker to_dp = (DatePicker) view.findViewById(R.id.fragment_create_meeting_to_dp);
-			TimePicker to_tp = (TimePicker) view.findViewById(R.id.fragment_create_meeting_to_tp);
+			TimePicker to_tp = (TimePicker) view.findViewById(R.id.fragment_create_orderline_to_tp);
 			EditText location = (EditText) view.findViewById(R.id.fragment_create_meeting_location_et);
 
 			meeting.setAddress(location.getText().toString());

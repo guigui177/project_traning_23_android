@@ -1,8 +1,13 @@
 package com.example.project_traning_23;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.exemple.project_traning_23.fragment.IFragment;
 import com.example.project_traning_23.utils.FragmentList;
 //import eu.justmove.utils.MenuItem;
+
+
 
 
 
@@ -42,6 +47,11 @@ public class Project_traning_2_3 extends ActionBarActivity {
 	private boolean islogged = false;
 	private String Username;
 	private String Userpass;
+	private Map<String, Object> order;
+	private Map<String, Object> selectedDish;
+	
+
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +200,22 @@ public class Project_traning_2_3 extends ActionBarActivity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
+	}
+
+	public Map<String, Object> getOrder() {
+		return order;
+	}
+
+	public void setOrder(Map<String, Object> order) {
+		this.order = order;
+	}
+
+	public Map<String, Object> getSelectedDish() {
+		return selectedDish;
+	}
+
+	public void setSelectedDish(Map<String, Object> selectedDish) {
+		this.selectedDish = selectedDish;
 	}
 
 }

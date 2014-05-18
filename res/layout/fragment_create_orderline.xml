@@ -10,12 +10,6 @@
         android:columnCount="2"
         android:padding="5dp" >
 
-        <TextView
-            android:id="@+id/fragment_create_meeting_name_title_tv"
-            android:layout_columnSpan="2"
-            android:layout_gravity="top|left"
-            android:text="Name :" />
-
         <EditText
             android:id="@+id/fragment_create_orderline_name_et"
             android:layout_columnSpan="2"
@@ -102,6 +96,14 @@
             android:layout_columnSpan="2"
             android:layout_gravity="top|center_horizontal"
             android:text="OK" />
+
+        <TextView
+            android:id="@+id/fragment_create_meeting_name_title_tv"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_row="6"
+            android:text="Name :" />
+
     </GridLayout>
 
 </ScrollView>

@@ -13,10 +13,10 @@
         android:layout_gravity="center"
         android:text="add" />
 
-    <ExpandableListView
-        android:id="@+id/fragmant_order_expendablelist"
+    <ListView
+        android:id="@+id/fragment_order_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-    </ExpandableListView>
+    </ListView>
 
 </LinearLayout>

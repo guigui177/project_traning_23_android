@@ -85,12 +85,12 @@ public class CreateOrder extends AFragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_create_meeting, container, false);
 
-		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.AutoComplete_resto);
+/*		final AutoCompleteTextView actv = (AutoCompleteTextView) view.findViewById(R.id.AutoComplete_resto);
 		actv.setText("");
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_dropdown_item, resto_name);
-		actv.setAdapter(adapter);
-		actv.setOnItemClickListener(new OnItemClickListener() {
+		actv.setAdapter(adapter);*/
+		/*actv.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -98,7 +98,7 @@ public class CreateOrder extends AFragment implements OnClickListener {
 //				meeting.setId_restaurant(restaurants.get(position).getId());
 //				Toast.makeText(getActivity(),resto_name.get(position) , Toast.LENGTH_SHORT).show();
 			}
-		});
+		});*/
 
 		return view;
 	}

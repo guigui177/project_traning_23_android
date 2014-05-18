@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp" >
 
         <TextView
             android:id="@+id/fragment_list_list_textView_dishprice"
@@ -15,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -24,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -32,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:layout_toRightOf="@+id/fragment_list_list_textView_dishname"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -41,10 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
             android:layout_toLeftOf="@+id/fragment_list_list_textView_dishprice"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </RelativeLayout>
 
 </LinearLayout>

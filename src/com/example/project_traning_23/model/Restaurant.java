@@ -174,7 +174,7 @@ public class Restaurant extends Project_traning_Model{
 					restaurants.add(r);
 				}
 				if (choice == 0) {
-					final AutoCompleteTextView actv = (AutoCompleteTextView) ((View)o).findViewById(R.id.fragment_create_meeting_restaurant_actv);
+					final AutoCompleteTextView actv = (AutoCompleteTextView) ((View)o).findViewById(R.id.fragment_create_orderline_restaurant_actv);
 					actv.setText("");
 					List<String> autocstr = new ArrayList<String>();
 					for (int i = 0; i < restaurants.size(); ++i)

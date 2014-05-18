@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import android.R.integer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.project_traning_23.Project_traning_2_3;
 import com.example.project_traning_23.R;
 import com.example.project_traning_23.model.Good_user;
 import com.example.project_traning_23.model.Meeting;
@@ -30,13 +34,13 @@ import com.example.project_traning_23.utils.Project_traning_RestClient;
 import com.exemple.project_traning_23.fragment.AFragment;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-public class OrderMeal extends AFragment implements OnClickListener {
+public class OrderMeal extends AFragment implements OnClickListener, OnItemClickListener {
 
 	private ListView list;
 	private ListView list_list;
 	
 	private List<Map<String, Object>> orderlist = new ArrayList<Map<String, Object>>();
-	private List<Map<String, Object>> orderlinelist = new ArrayList<Map<String, Object>>();
+	
 
 	@Override
 	public int getMenuTitle() {
@@ -76,36 +80,7 @@ public class OrderMeal extends AFragment implements OnClickListener {
 		});
 	}
 
-	public void get_order_line(Object object)
-	{	
-		Project_traning_RestClient.getWithboddy(getActivity().getApplicationContext(), "order_lines/read/" + object.toString() , null, 
-				new AsyncHttpResponseHandler() {
-			@Override
-			public void onSuccess(String response) {
-				System.out.println(response);
-
-				Project_traning_AdaptResponse<Order> test = new Project_traning_AdaptResponse<Order>();
-
-				orderlinelist = test.adaptToMap(response);
-
-				Map<String, Object> t = new HashMap<String, Object>();
-
-				for(int i = 0; i < orderlinelist.size(); i++)
-				{
-					t = orderlinelist.get(i);					
-					HashMap<String, Object> usr = (HashMap<String, Object>) t.get("user");
-					HashMap<String, Object> dis = (HashMap<String, Object>) t.get("dish");
-					t.put("userName", usr.get("userName"));
-					t.put("dishName", dis.get("name"));
-					t.put("dishPrice", dis.get("price"));
-					Log.d("API order Line ", "name = " + dis.get("name") + "price = " + dis.get("price") + " username = " + usr.get("userName"));
-				}
-				SimpleAdapter mSchedule2 = new SimpleAdapter (getActivity(), orderlinelist, R.layout.fragment_list_list_order,
-						new String[] {"dishName", "quantity", "userName", "dishPrice"}, new int[] {R.id.fragment_list_list_textView_dishname, R.id.fragment_list_list_textView_dishkb, R.id.fragment_list_list_textView_username, R.id.fragment_list_list_textView_dishprice});
-				list_list.setAdapter(mSchedule2);
-			}
-		});
-	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,8 +89,9 @@ public class OrderMeal extends AFragment implements OnClickListener {
 		View v2 = inflater.inflate(R.layout.fragment_list_order, container, false);
 		v.findViewById(R.id.fragment_order_list_add).setOnClickListener(this);
 		
-//		list  = (ListView) v.findViewById(R.id.fragment_order_listView);
-//		list_list  = (ListView) v2.findViewById(R.id.fragment_list_order_listmeal);
+	list  = (ListView) v.findViewById(R.id.fragment_order_listView);
+		list.setOnItemClickListener(this);
+//		
 		
 //		ExpandableListAdapterForMeeting elafm = new ExpandableListAdapterForMeeting();
 		Log.d("debug", "apres expandable");
@@ -124,7 +100,6 @@ public class OrderMeal extends AFragment implements OnClickListener {
 
 		
 		orderlist.clear();
-		orderlinelist.clear();
 		
 		request_get_order();
 		return v;
@@ -141,14 +116,33 @@ public class OrderMeal extends AFragment implements OnClickListener {
 		switch(v.getId()) {
 		
 		case R.id.fragment_order_list_add:
-/*			final FragmentManager fm = getActivity().getSupportFragmentManager();
+
+			final FragmentManager fm = getActivity().getSupportFragmentManager();
 			final FragmentTransaction ft = fm.beginTransaction();
 			ft.replace(R.id.content_frame, new CreateOrder());
 			// Null on the back stack to return on the previous fragment when user
 			// press on back button.
 			ft.addToBackStack(null);
-			ft.commit();*/
+			ft.commit();
 			break;
 		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Integer orderid =  (Integer) orderlist.get(position).get("id");
+		
+		Project_traning_2_3 main = (Project_traning_2_3) getActivity();
+		main.setOrder(orderlist.get(position));
+		final FragmentManager fm = getActivity().getSupportFragmentManager();
+		final FragmentTransaction ft = fm.beginTransaction();
+		ft.replace(R.id.content_frame, new OrderLine());
+		// Null on the back stack to return on the previous fragment when user
+		// press on back button.
+		ft.addToBackStack(null);
+		ft.commit();
+		// TODO Auto-generated method stub
+		
 	}
 }

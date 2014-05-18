@@ -116,7 +116,7 @@ public class ListFriend extends AFragment implements OnClickListener {
 		View v = inflater.inflate(R.layout.fragment_list_friend, container, false);
 		v.findViewById(R.id.fragment_listfriend_button_addfriend).setOnClickListener(this);
 		v.findViewById(R.id.fragment_listfriend_button_delfriend).setOnClickListener(this);
-		listFriend = (ListView) v.findViewById(R.id.fragment_listfriend_list_listfriend);
+		listFriend = (ListView) v.findViewById(R.id.fragment_listdish_listview);
 		usernamelist.clear();
 		friendnamelist.clear();
 		getuserrequest();

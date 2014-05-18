@@ -31,6 +31,7 @@ public class Project_traning_AdaptResponse<T extends Project_traning_Model> {
 		return null;
 	}
 
+
 	public List<T> adaptToList(final String response, final Class<T> className) {
 		try {
 			final JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, className);

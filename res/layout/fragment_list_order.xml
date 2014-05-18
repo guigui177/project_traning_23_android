@@ -27,25 +27,13 @@
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/fragment_list_list_textView_dishkb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/fragment_list_order_textView_username"
-            android:layout_marginTop="22dp"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/fragment_list_order_textView_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fragment_list_list_textView_dishkb"
-            android:layout_alignParentLeft="true"
-            android:text="Medium Text"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/fragment_list_order_textView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>

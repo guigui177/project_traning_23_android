@@ -21,14 +21,14 @@ public class FindRestaurantMap extends AFragment  {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_restaurant_map, container, false);
-		//		MapView map	= v.findViewById(R.id.)
-		GoogleMap gMap = ((SupportMapFragment) getChildFragmentManager()
-					.findFragmentById(R.id.map)).getMap();
-		gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-		gMap.setMyLocationEnabled(true);
-		gMap.getUiSettings().setCompassEnabled(true);
-		return v;
+	//	View v = inflater.inflate(R.layout.fragment_restaurant_map, container, false);
+//		//		MapView map	= v.findViewById(R.id.)
+//		GoogleMap gMap = ((SupportMapFragment) getChildFragmentManager()
+//					.findFragmentById(R.id.map)).getMap();
+//		gMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//		gMap.setMyLocationEnabled(true);
+//		gMap.getUiSettings().setCompassEnabled(true);
+		return null;
 	}
 
 	public void onActivityCreated(Bundle savedInstanceState)
